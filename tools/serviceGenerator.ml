@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 open GapiLens.Infix
 open GapiLens.StateInfix

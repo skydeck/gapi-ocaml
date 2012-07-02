@@ -72,7 +72,7 @@ Library "gapi-ocaml"
     GapiAdsenseV1_1Service,
     GapiBigqueryV2Model,
     GapiBigqueryV2Service
-  BuildDepends: extlib, netstring, curl, str, cryptokit, json-wheel, xmlm
+  BuildDepends: batteries, netstring, curl, str, cryptokit, json-wheel, xmlm
   XMETADescription: Google APIs client library
 
 Library gdata
@@ -89,7 +89,7 @@ Library gdata
     GdataACLService,
     GdataDocumentsV3Model,
     GdataDocumentsV3Service
-  BuildDepends: gapi-ocaml, xmlm, extlib, netstring, curl
+  BuildDepends: gapi-ocaml, xmlm, batteries, netstring, curl
   FindlibParent: gapi-ocaml
   XMETADescription: Google Data Protocol (GData) client library
 

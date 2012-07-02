@@ -1,3 +1,5 @@
+open Extlib
+
 let random_generator =
   lazy (Cryptokit.Random.pseudo_rng
           (Cryptokit.Random.string Cryptokit.Random.secure_rng 20))

@@ -2,23 +2,23 @@
 <gapi*Model.ml> : warn_x
 
 # Packages deps
-<gapiLens.*> : pkg_extlib
-<gapiCore.*> : pkg_extlib
-<gapiUtils.*> : pkg_netstring, pkg_extlib
+<gapiLens.*> : pkg_batteries
+<gapiCore.*> : pkg_batteries
+<gapiUtils.*> : pkg_netstring, pkg_batteries
 <gapiCurl.*> : pkg_netstring, pkg_curl
 <gapiPipe.*> : pkg_netstring
 <gapiConfig.*> : pkg_curl
-<gapiConversation.*> : pkg_netstring, pkg_curl, pkg_extlib
-<gapiClientLogin.*> : pkg_netstring, pkg_curl, pkg_extlib, pkg_str
-<gapiOAuth1.*> : pkg_netstring, pkg_curl, pkg_extlib, pkg_str, pkg_cryptokit
+<gapiConversation.*> : pkg_netstring, pkg_curl, pkg_batteries
+<gapiClientLogin.*> : pkg_netstring, pkg_curl, pkg_batteries, pkg_str
+<gapiOAuth1.*> : pkg_netstring, pkg_curl, pkg_batteries, pkg_str, pkg_cryptokit
 <gapiOAuth2.*> : pkg_netstring, pkg_curl, pkg_cryptokit, \
-                 pkg_extlib, pkg_json-wheel
-<gapiAuth.*> : pkg_netstring, pkg_extlib
-<gapiRequest.*> : pkg_netstring, pkg_extlib, pkg_xmlm
-<gapiError.*> : pkg_json-wheel, pkg_extlib
+                 pkg_batteries, pkg_json-wheel
+<gapiAuth.*> : pkg_netstring, pkg_batteries
+<gapiRequest.*> : pkg_netstring, pkg_batteries, pkg_xmlm
+<gapiError.*> : pkg_json-wheel, pkg_batteries
 <gapiDate.*> : pkg_netstring
-<gapiJson.*> : pkg_json-wheel, pkg_extlib
-<gapiCalendar.*> : pkg_json-wheel, pkg_extlib
-<gapi*Model.*> : pkg_json-wheel, pkg_extlib
-<gapi*Service.*> : pkg_json-wheel, pkg_extlib
+<gapiJson.*> : pkg_json-wheel, pkg_batteries
+<gapiCalendar.*> : pkg_json-wheel, pkg_batteries
+<gapi*Model.*> : pkg_json-wheel, pkg_batteries
+<gapi*Service.*> : pkg_json-wheel, pkg_batteries
 

@@ -1,3 +1,5 @@
+open Extlib
+
 module Error =
 struct
   type t =

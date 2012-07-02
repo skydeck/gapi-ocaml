@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 
 exception ServiceError of GapiError.RequestError.t

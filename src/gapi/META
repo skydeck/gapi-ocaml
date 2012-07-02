@@ -2,7 +2,7 @@
 # DO NOT EDIT (digest: a3c31ebf43e122eba41bf1ce2364fd28)
 version = "0.1.13"
 description = "Google APIs client library"
-requires = "extlib netstring curl str cryptokit json-wheel xmlm"
+requires = "batteries netstring curl str cryptokit json-wheel xmlm"
 archive(byte) = "gapi-ocaml.cma"
 archive(byte, plugin) = "gapi-ocaml.cma"
 archive(native) = "gapi-ocaml.cmxa"
@@ -11,7 +11,7 @@ exists_if = "gapi-ocaml.cma"
 package "gdata" (
  version = "0.1.13"
  description = "Google Data Protocol (GData) client library"
- requires = "gapi-ocaml xmlm extlib netstring curl"
+ requires = "gapi-ocaml xmlm batteries netstring curl"
  archive(byte) = "gdata.cma"
  archive(byte, plugin) = "gdata.cma"
  archive(native) = "gdata.cmxa"

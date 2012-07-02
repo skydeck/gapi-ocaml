@@ -5683,7 +5683,7 @@ let setup_t =
                       bs_compiled_object = Best;
                       bs_build_depends =
                         [
-                           FindlibPackage ("extlib", None);
+                           FindlibPackage ("batteries", None);
                            FindlibPackage ("netstring", None);
                            FindlibPackage ("curl", None);
                            FindlibPackage ("str", None);
@@ -5771,7 +5771,7 @@ let setup_t =
                         [
                            InternalLibrary "gapi-ocaml";
                            FindlibPackage ("xmlm", None);
-                           FindlibPackage ("extlib", None);
+                           FindlibPackage ("batteries", None);
                            FindlibPackage ("netstring", None);
                            FindlibPackage ("curl", None)
                         ];

@@ -1,3 +1,5 @@
+open Extlib
+
 module ClientLogin =
 struct
   type auth_token = string
