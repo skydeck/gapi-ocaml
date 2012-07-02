@@ -25,16 +25,16 @@ let range_spec = {
 let create_out_channel download =
   match download.destination with
     TargetFile filename ->
-      new Netchannels.output_channel (open_out filename)
+      new Nlchannels.output_channel (open_out filename)
   | StringBuffer buf ->
-      new Netchannels.output_buffer buf
+      new Nlchannels.output_buffer buf
   | ArrayBuffer arr ->
       let n = Bigarray.Array1.dim arr in
-      let netbuffer = Netbuffer.create n in
+      let netbuffer = Nlbuffer.create n in
       let onclose () =
-        Netbuffer.blit_to_memory netbuffer 0 arr 0 n
+        Nlbuffer.blit_to_memory netbuffer 0 arr 0 n
       in
-        new Netchannels.output_netbuffer ~onclose netbuffer
+        new Nlchannels.output_netbuffer ~onclose netbuffer
 
 let generate_download_headers download =
   match download.range_spec with
@@ -117,7 +117,7 @@ let current_offset = {
 let get_basename filename =
   try
     GapiUtils.string_after_char Filename.dir_sep.[0] filename
-  with Not_found -> filename 
+  with Not_found -> filename
 
 let get_resource_length = function
     File filename ->
@@ -304,4 +304,3 @@ let get_post_data upload_state =
             str
   in
     GapiCore.PostData.Body (body, upload_state.resource.content_type)
-

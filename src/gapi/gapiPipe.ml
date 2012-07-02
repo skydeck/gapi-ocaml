@@ -3,16 +3,16 @@ open Extlib
 module OcamlnetPipe =
 struct
   type t = {
-    netpipe : Netchannels.pipe;
-    outfilter : Netchannels.output_filter option;
+    netpipe : Nlchannels.pipe;
+    outfilter : Nlchannels.output_filter option;
   }
 
   let create ?out_channel () =
-    let netpipe = new Netchannels.pipe () in
+    let netpipe = new Nlchannels.pipe () in
     let outfilter =
       Option.map
         (fun ch ->
-           new Netchannels.output_filter 
+           new Nlchannels.output_filter
              netpipe
              ch)
         out_channel
@@ -34,7 +34,7 @@ struct
 
   let out_ch p =
     Option.default
-      (p.netpipe :> Netchannels.out_obj_channel)
+      (p.netpipe :> Nlchannels.out_obj_channel)
       p.outfilter
 
   let write_byte p b =
@@ -53,4 +53,3 @@ struct
     Option.may (fun ch -> ch#close_out ()) p.outfilter
 
 end
-

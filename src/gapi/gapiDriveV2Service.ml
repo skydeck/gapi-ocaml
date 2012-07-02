@@ -1,21 +1,21 @@
 (* Warning! This file is generated. Modify at your own risk. *)
-
+open Extlib
 open GapiUtils.Infix
 open GapiDriveV2Model
 
 module Scope =
 struct
   let drive = "https://www.googleapis.com/auth/drive"
-  
+
   let drive_apps_readonly = "https://www.googleapis.com/auth/drive.apps.readonly"
-  
+
   let drive_file = "https://www.googleapis.com/auth/drive.file"
-  
+
   let drive_metadata_readonly = "https://www.googleapis.com/auth/drive.metadata.readonly"
-  
+
   let drive_readonly = "https://www.googleapis.com/auth/drive.readonly"
-  
-  
+
+
 end
 
 module AboutResource =
@@ -33,9 +33,9 @@ struct
       includeSubscribed : bool;
       maxChangeIdCount : int64;
       startChangeId : int64;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -45,9 +45,9 @@ struct
       includeSubscribed = true;
       maxChangeIdCount = 1L;
       startChangeId = 0L;
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -59,9 +59,9 @@ struct
       param (fun p -> p.includeSubscribed) string_of_bool "includeSubscribed";
       param (fun p -> p.maxChangeIdCount) Int64.to_string "maxChangeIdCount";
       param (fun p -> p.startChangeId) Int64.to_string "startChangeId";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(includeSubscribed = default.includeSubscribed)
@@ -77,12 +77,12 @@ struct
         includeSubscribed;
         maxChangeIdCount;
         startChangeId;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -98,9 +98,9 @@ struct
     let query_parameters = Option.map AboutParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response About.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response About.of_data_model) session
+
+
 end
 
 module AppsResource =
@@ -118,8 +118,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response App.of_data_model) session 
-    
+      (GapiJson.parse_json_response App.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -130,9 +130,9 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response AppList.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response AppList.of_data_model) session
+
+
 end
 
 module ChangesResource =
@@ -152,9 +152,9 @@ struct
       maxResults : int;
       pageToken : string;
       startChangeId : int64;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -166,9 +166,9 @@ struct
       maxResults = 100;
       pageToken = "";
       startChangeId = 0L;
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -182,9 +182,9 @@ struct
       param (fun p -> p.maxResults) string_of_int "maxResults";
       param (fun p -> p.pageToken) (fun x -> x) "pageToken";
       param (fun p -> p.startChangeId) Int64.to_string "startChangeId";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(includeDeleted = default.includeDeleted)
@@ -204,12 +204,12 @@ struct
         maxResults;
         pageToken;
         startChangeId;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -223,8 +223,8 @@ struct
     let query_parameters = Option.map ChangesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response Change.of_data_model) session 
-    
+      (GapiJson.parse_json_response Change.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -241,9 +241,9 @@ struct
     let query_parameters = Option.map ChangesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response ChangeList.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response ChangeList.of_data_model) session
+
+
 end
 
 module ChildrenResource =
@@ -261,9 +261,9 @@ struct
       maxResults : int;
       pageToken : string;
       q : string;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -273,9 +273,9 @@ struct
       maxResults = 100;
       pageToken = "";
       q = "";
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -287,9 +287,9 @@ struct
       param (fun p -> p.maxResults) string_of_int "maxResults";
       param (fun p -> p.pageToken) (fun x -> x) "pageToken";
       param (fun p -> p.q) (fun x -> x) "q";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(maxResults = default.maxResults)
@@ -305,12 +305,12 @@ struct
         maxResults;
         pageToken;
         q;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let delete
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -325,8 +325,8 @@ struct
     let query_parameters = Option.map ChildrenParameters.to_key_value_list
       params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -342,8 +342,8 @@ struct
     let query_parameters = Option.map ChildrenParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response ChildReference.of_data_model) session 
-    
+      (GapiJson.parse_json_response ChildReference.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -359,8 +359,8 @@ struct
     GapiService.post ?query_parameters
       ~data_to_post:(GapiJson.render_json ChildReference.to_data_model)
       ~data:childReference full_url
-      (GapiJson.parse_json_response ChildReference.of_data_model) session 
-    
+      (GapiJson.parse_json_response ChildReference.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -376,9 +376,9 @@ struct
     let query_parameters = Option.map ChildrenParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response ChildList.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response ChildList.of_data_model) session
+
+
 end
 
 module CommentsResource =
@@ -397,9 +397,9 @@ struct
       maxResults : int;
       pageToken : string;
       updatedMin : string;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -410,9 +410,9 @@ struct
       maxResults = 20;
       pageToken = "";
       updatedMin = "";
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -425,9 +425,9 @@ struct
       param (fun p -> p.maxResults) string_of_int "maxResults";
       param (fun p -> p.pageToken) (fun x -> x) "pageToken";
       param (fun p -> p.updatedMin) (fun x -> x) "updatedMin";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(includeDeleted = default.includeDeleted)
@@ -445,12 +445,12 @@ struct
         maxResults;
         pageToken;
         updatedMin;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let delete
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -464,8 +464,8 @@ struct
     let query_parameters = Option.map CommentsParameters.to_key_value_list
       params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -481,8 +481,8 @@ struct
     let query_parameters = Option.map CommentsParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response Comment.of_data_model) session 
-    
+      (GapiJson.parse_json_response Comment.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -498,8 +498,8 @@ struct
     GapiService.post ?query_parameters
       ~data_to_post:(GapiJson.render_json Comment.to_data_model)
       ~data:comment full_url
-      (GapiJson.parse_json_response Comment.of_data_model) session 
-    
+      (GapiJson.parse_json_response Comment.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -517,8 +517,8 @@ struct
     let query_parameters = Option.map CommentsParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response CommentList.of_data_model) session 
-    
+      (GapiJson.parse_json_response CommentList.of_data_model) session
+
   let patch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -535,8 +535,8 @@ struct
     GapiService.patch ?query_parameters
       ~data_to_post:(GapiJson.render_json Comment.to_data_model)
       ~data:comment full_url
-      (GapiJson.parse_json_response Comment.of_data_model) session 
-    
+      (GapiJson.parse_json_response Comment.of_data_model) session
+
   let update
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -553,9 +553,9 @@ struct
     GapiService.put ?query_parameters
       ~data_to_post:(GapiJson.render_json Comment.to_data_model)
       ~data:comment full_url
-      (GapiJson.parse_json_response Comment.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response Comment.of_data_model) session
+
+
 end
 
 module FilesResource =
@@ -566,20 +566,20 @@ struct
       | Default
       | BASIC
       | FULL
-      
+
     let to_string = function
       | Default -> ""
       | BASIC -> "BASIC"
       | FULL -> "FULL"
-      
+
     let of_string = function
       | "" -> Default
       | "BASIC" -> BASIC
       | "FULL" -> FULL
       | s -> failwith ("Unexpected value for Projection:" ^ s)
-  
+
   end
-  
+
   module FilesParameters =
   struct
     type t = {
@@ -604,9 +604,9 @@ struct
       timedTextTrackName : string;
       updateViewedDate : bool;
       useContentAsIndexableText : bool;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -627,9 +627,9 @@ struct
       timedTextTrackName = "";
       updateViewedDate = false;
       useContentAsIndexableText = false;
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -652,9 +652,9 @@ struct
       param (fun p -> p.timedTextTrackName) (fun x -> x) "timedTextTrackName";
       param (fun p -> p.updateViewedDate) string_of_bool "updateViewedDate";
       param (fun p -> p.useContentAsIndexableText) string_of_bool "useContentAsIndexableText";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(convert = default.convert)
@@ -692,12 +692,12 @@ struct
         timedTextTrackName;
         updateViewedDate;
         useContentAsIndexableText;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let copy
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -720,8 +720,8 @@ struct
       params in
     GapiService.post ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json File.to_data_model) ~data:file
-      full_url (GapiJson.parse_json_response File.of_data_model) session 
-    
+      full_url (GapiJson.parse_json_response File.of_data_model) session
+
   let delete
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -734,8 +734,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -751,8 +751,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response File.of_data_model) session 
-    
+      (GapiJson.parse_json_response File.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -779,8 +779,8 @@ struct
       params in
     GapiService.post ?query_parameters ?etag ?media_source
       ~data_to_post:(GapiJson.render_json File.to_data_model) ~data:file
-      full_url (GapiJson.parse_json_response File.of_data_model) session 
-    
+      full_url (GapiJson.parse_json_response File.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -796,8 +796,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response FileList.of_data_model) session 
-    
+      (GapiJson.parse_json_response FileList.of_data_model) session
+
   let patch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -825,8 +825,8 @@ struct
       params in
     GapiService.patch ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json File.to_data_model) ~data:file
-      full_url (GapiJson.parse_json_response File.of_data_model) session 
-    
+      full_url (GapiJson.parse_json_response File.of_data_model) session
+
   let touch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -839,8 +839,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.post ?query_parameters ~data:File.empty full_url
-      (GapiJson.parse_json_response File.of_data_model) session 
-    
+      (GapiJson.parse_json_response File.of_data_model) session
+
   let trash
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -853,8 +853,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.post ?query_parameters ~data:File.empty full_url
-      (GapiJson.parse_json_response File.of_data_model) session 
-    
+      (GapiJson.parse_json_response File.of_data_model) session
+
   let untrash
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -867,8 +867,8 @@ struct
     let query_parameters = Option.map FilesParameters.to_key_value_list
       params in
     GapiService.post ?query_parameters ~data:File.empty full_url
-      (GapiJson.parse_json_response File.of_data_model) session 
-    
+      (GapiJson.parse_json_response File.of_data_model) session
+
   let update
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -901,9 +901,9 @@ struct
       params in
     GapiService.put ?query_parameters ?etag ?media_source
       ~data_to_post:(GapiJson.render_json File.to_data_model) ~data:file
-      full_url (GapiJson.parse_json_response File.of_data_model) session 
-    
-  
+      full_url (GapiJson.parse_json_response File.of_data_model) session
+
+
 end
 
 module ParentsResource =
@@ -921,8 +921,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -937,8 +937,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response ParentReference.of_data_model) session 
-    
+      (GapiJson.parse_json_response ParentReference.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -954,8 +954,8 @@ struct
     GapiService.post ?query_parameters
       ~data_to_post:(GapiJson.render_json ParentReference.to_data_model)
       ~data:parentReference full_url
-      (GapiJson.parse_json_response ParentReference.of_data_model) session 
-    
+      (GapiJson.parse_json_response ParentReference.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -968,9 +968,9 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response ParentList.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response ParentList.of_data_model) session
+
+
 end
 
 module PermissionsResource =
@@ -987,9 +987,9 @@ struct
       (* permissions-specific query parameters *)
       emailMessage : string;
       sendNotificationEmails : bool;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -998,9 +998,9 @@ struct
       key = "";
       emailMessage = "";
       sendNotificationEmails = true;
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -1011,9 +1011,9 @@ struct
       param (fun p -> p.key) (fun x -> x) "key";
       param (fun p -> p.emailMessage) (fun x -> x) "emailMessage";
       param (fun p -> p.sendNotificationEmails) string_of_bool "sendNotificationEmails";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(emailMessage = default.emailMessage)
@@ -1027,12 +1027,12 @@ struct
         key = standard_parameters.GapiService.StandardParameters.key;
         emailMessage;
         sendNotificationEmails;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let delete
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1046,8 +1046,8 @@ struct
     let query_parameters = Option.map PermissionsParameters.to_key_value_list
       params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -1062,8 +1062,8 @@ struct
     let query_parameters = Option.map PermissionsParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response Permission.of_data_model) session 
-    
+      (GapiJson.parse_json_response Permission.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1083,8 +1083,8 @@ struct
     GapiService.post ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json Permission.to_data_model)
       ~data:permission full_url
-      (GapiJson.parse_json_response Permission.of_data_model) session 
-    
+      (GapiJson.parse_json_response Permission.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1097,8 +1097,8 @@ struct
     let query_parameters = Option.map PermissionsParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response PermissionList.of_data_model) session 
-    
+      (GapiJson.parse_json_response PermissionList.of_data_model) session
+
   let patch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1116,8 +1116,8 @@ struct
     GapiService.patch ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json Permission.to_data_model)
       ~data:permission full_url
-      (GapiJson.parse_json_response Permission.of_data_model) session 
-    
+      (GapiJson.parse_json_response Permission.of_data_model) session
+
   let update
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1135,9 +1135,9 @@ struct
     GapiService.put ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json Permission.to_data_model)
       ~data:permission full_url
-      (GapiJson.parse_json_response Permission.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response Permission.of_data_model) session
+
+
 end
 
 module RepliesResource =
@@ -1155,9 +1155,9 @@ struct
       includeDeleted : bool;
       maxResults : int;
       pageToken : string;
-      
+
     }
-    
+
     let default = {
       fields = "";
       prettyPrint = true;
@@ -1167,9 +1167,9 @@ struct
       includeDeleted = false;
       maxResults = 20;
       pageToken = "";
-      
+
     }
-    
+
     let to_key_value_list qp =
       let param get_value to_string name =
         GapiService.build_param default qp get_value to_string name in [
@@ -1181,9 +1181,9 @@ struct
       param (fun p -> p.includeDeleted) string_of_bool "includeDeleted";
       param (fun p -> p.maxResults) string_of_int "maxResults";
       param (fun p -> p.pageToken) (fun x -> x) "pageToken";
-      
+
     ] |> List.concat
-    
+
     let merge_parameters
         ?(standard_parameters = GapiService.StandardParameters.default)
         ?(includeDeleted = default.includeDeleted)
@@ -1199,12 +1199,12 @@ struct
         includeDeleted;
         maxResults;
         pageToken;
-        
+
       } in
       if parameters = default then None else Some parameters
-    
+
   end
-  
+
   let delete
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1220,8 +1220,8 @@ struct
     let query_parameters = Option.map RepliesParameters.to_key_value_list
       params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -1239,8 +1239,8 @@ struct
     let query_parameters = Option.map RepliesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response CommentReply.of_data_model) session 
-    
+      (GapiJson.parse_json_response CommentReply.of_data_model) session
+
   let insert
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1257,8 +1257,8 @@ struct
     GapiService.post ?query_parameters
       ~data_to_post:(GapiJson.render_json CommentReply.to_data_model)
       ~data:commentReply full_url
-      (GapiJson.parse_json_response CommentReply.of_data_model) session 
-    
+      (GapiJson.parse_json_response CommentReply.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1276,8 +1276,8 @@ struct
     let query_parameters = Option.map RepliesParameters.to_key_value_list
       params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response CommentReplyList.of_data_model) session 
-    
+      (GapiJson.parse_json_response CommentReplyList.of_data_model) session
+
   let patch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1296,8 +1296,8 @@ struct
     GapiService.patch ?query_parameters
       ~data_to_post:(GapiJson.render_json CommentReply.to_data_model)
       ~data:commentReply full_url
-      (GapiJson.parse_json_response CommentReply.of_data_model) session 
-    
+      (GapiJson.parse_json_response CommentReply.of_data_model) session
+
   let update
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1316,9 +1316,9 @@ struct
     GapiService.put ?query_parameters
       ~data_to_post:(GapiJson.render_json CommentReply.to_data_model)
       ~data:commentReply full_url
-      (GapiJson.parse_json_response CommentReply.of_data_model) session 
-    
-  
+      (GapiJson.parse_json_response CommentReply.of_data_model) session
+
+
 end
 
 module RevisionsResource =
@@ -1336,8 +1336,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.delete ?query_parameters full_url
-      GapiRequest.parse_empty_response session 
-    
+      GapiRequest.parse_empty_response session
+
   let get
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?etag
@@ -1352,8 +1352,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters ?etag full_url
-      (GapiJson.parse_json_response Revision.of_data_model) session 
-    
+      (GapiJson.parse_json_response Revision.of_data_model) session
+
   let list
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1366,8 +1366,8 @@ struct
     let query_parameters = Option.map
       GapiService.StandardParameters.to_key_value_list params in
     GapiService.get ?query_parameters full_url
-      (GapiJson.parse_json_response RevisionList.of_data_model) session 
-    
+      (GapiJson.parse_json_response RevisionList.of_data_model) session
+
   let patch
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1385,8 +1385,8 @@ struct
     GapiService.patch ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json Revision.to_data_model)
       ~data:revision full_url
-      (GapiJson.parse_json_response Revision.of_data_model) session 
-    
+      (GapiJson.parse_json_response Revision.of_data_model) session
+
   let update
         ?(base_url = "https://www.googleapis.com/drive/v2/")
         ?std_params
@@ -1404,8 +1404,7 @@ struct
     GapiService.put ?query_parameters ?etag
       ~data_to_post:(GapiJson.render_json Revision.to_data_model)
       ~data:revision full_url
-      (GapiJson.parse_json_response Revision.of_data_model) session 
-    
-  
-end
+      (GapiJson.parse_json_response Revision.of_data_model) session
 
+
+end

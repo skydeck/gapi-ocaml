@@ -5,7 +5,7 @@ let random_generator =
           (Cryptokit.Random.string Cryptokit.Random.secure_rng 20))
 
 let encode s =
-  Netencoding.Url.encode ~plus:false s
+  Nlencoding.Url.encode ~plus:false s
 
 let generate_signature
       http_method
@@ -54,7 +54,7 @@ let generate_signature
           let _ = hash#add_string signature_base_string in
           let result = hash#result in
             hash#wipe;
-            Netencoding.Base64.encode result
+            Nlencoding.Base64.encode result
       | _ ->
           assert false
 
@@ -121,7 +121,7 @@ let build_oauth_fields_to_sign
         transform#get_string
     in
       hexa_encode (Cryptokit.Random.string (Lazy.force random_generator) 8) in
-    
+
   let generate_timestamp () =
     String.sub (string_of_float (Unix.time ())) 0 10 in
 
@@ -133,7 +133,7 @@ let build_oauth_fields_to_sign
     match oauth_nonce with
         None -> generate_timestamp ()
       | Some t -> t in
-  let common_oauth_fields = 
+  let common_oauth_fields =
     [("oauth_consumer_key", oauth_consumer_key);
      ("oauth_nonce", nonce);
      ("oauth_signature_method", GapiCore.SignatureMethod.to_string
@@ -160,7 +160,7 @@ let parse_token_response
       pipe =
   try
     let line = GapiPipe.OcamlnetPipe.read_line pipe in
-    let fields = Netencoding.Url.dest_url_encoded_parameters line in
+    let fields = Nlencoding.Url.dest_url_encoded_parameters line in
       List.fold_left
         (fun response (key, value) ->
            let update_response = List.assoc key actions in
@@ -217,7 +217,7 @@ let parse_token_info pipe =
               GapiConversation.Continue
                 (parse_next_line
                    { response with GapiAuthResponse.AuthSub.target = value })
-          | "Scope" -> 
+          | "Scope" ->
               GapiConversation.Continue
                 (parse_next_line
                    { response with GapiAuthResponse.AuthSub.scope = value })
@@ -230,7 +230,7 @@ let parse_token_info pipe =
               GapiConversation.Error ("Unexpected token info: " ^ key)
     with End_of_file ->
       GapiConversation.Done response
-  in 
+  in
     GapiAuthResponse.AuthSubTokenInfo
       (GapiConversation.loop
          (parse_next_line { GapiAuthResponse.AuthSub.target = "";
@@ -299,7 +299,7 @@ let authorize_token_url
       [("hd", hd);
        ("hl", hl);
        ("btmpl", if mobile then Some "mobile" else None)] in
-  let query_string = Netencoding.Url.mk_url_encoded_parameters
+  let query_string = Nlencoding.Url.mk_url_encoded_parameters
                        (required_field :: optional_fields) in
     base_url ^ "?" ^ query_string
 
@@ -388,4 +388,3 @@ let revoke_token
       oauth_signature_method
       (parse_response (fun _ -> ()))
       session
-

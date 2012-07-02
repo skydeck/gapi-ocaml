@@ -1,8 +1,8 @@
 # OASIS_START
-# DO NOT EDIT (digest: cbb434bd59645b40a7972c271f5af3da)
+# DO NOT EDIT (digest: 66cff63dac22cf6f20ccc004b6a2a10c)
 version = "0.2.1"
 description = "Google APIs client library"
-requires = "batteries netstring curl str cryptokit yojson"
+requires = "batteries netstring-light curl str cryptokit yojson"
 archive(byte) = "gapi-ocaml.cma"
 archive(byte, plugin) = "gapi-ocaml.cma"
 archive(native) = "gapi-ocaml.cmxa"

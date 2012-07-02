@@ -1,3 +1,5 @@
+open Extlib
+
 let library_version = "0.2.1"
 
 module AnnotatedTree = struct
@@ -182,4 +184,3 @@ struct
     (*| PLAINTEXT -> "PLAINTEXT" *)
 
 end
-
