@@ -20,7 +20,7 @@
 "_darcs": not_hygienic
 # Library gapi-ocaml
 "src/gapi/gapi-ocaml.cmxs": use_gapi-ocaml
-<src/gapi/*.ml{,i}>: pkg_extlib
+<src/gapi/*.ml{,i}>: pkg_batteries
 <src/gapi/*.ml{,i}>: pkg_netstring
 <src/gapi/*.ml{,i}>: pkg_curl
 <src/gapi/*.ml{,i}>: pkg_str
@@ -30,7 +30,7 @@
 "src/gdata/gdata.cmxs": use_gdata
 <src/gdata/*.ml{,i}>: use_gapi-ocaml
 <src/gdata/*.ml{,i}>: pkg_xmlm
-<src/gdata/*.ml{,i}>: pkg_extlib
+<src/gdata/*.ml{,i}>: pkg_batteries
 <src/gdata/*.ml{,i}>: pkg_netstring
 <src/gdata/*.ml{,i}>: pkg_curl
 <src/gdata/*.ml{,i}>: pkg_str
@@ -39,7 +39,7 @@
 # Executable serviceGenerator
 "tools/serviceGenerator.byte": use_gapi-ocaml
 "tools/serviceGenerator.byte": pkg_monad
-"tools/serviceGenerator.byte": pkg_extlib
+"tools/serviceGenerator.byte": pkg_batteries
 "tools/serviceGenerator.byte": pkg_netstring
 "tools/serviceGenerator.byte": pkg_curl
 "tools/serviceGenerator.byte": pkg_str
@@ -47,7 +47,7 @@
 "tools/serviceGenerator.byte": pkg_yojson
 <tools/*.ml{,i}>: use_gapi-ocaml
 <tools/*.ml{,i}>: pkg_monad
-<tools/*.ml{,i}>: pkg_extlib
+<tools/*.ml{,i}>: pkg_batteries
 <tools/*.ml{,i}>: pkg_netstring
 <tools/*.ml{,i}>: pkg_curl
 <tools/*.ml{,i}>: pkg_str
@@ -58,7 +58,7 @@
 "examples/auth/oauth2Flow.byte": use_gapi-ocaml
 "examples/auth/oauth2Flow.byte": pkg_nethttpd
 "examples/auth/oauth2Flow.byte": pkg_xmlm
-"examples/auth/oauth2Flow.byte": pkg_extlib
+"examples/auth/oauth2Flow.byte": pkg_batteries
 "examples/auth/oauth2Flow.byte": pkg_netstring
 "examples/auth/oauth2Flow.byte": pkg_curl
 "examples/auth/oauth2Flow.byte": pkg_str
@@ -69,7 +69,7 @@
 # Executable oauth1Flow
 "examples/auth/oauth1Flow.byte": use_gapi-ocaml
 "examples/auth/oauth1Flow.byte": pkg_nethttpd
-"examples/auth/oauth1Flow.byte": pkg_extlib
+"examples/auth/oauth1Flow.byte": pkg_batteries
 "examples/auth/oauth1Flow.byte": pkg_netstring
 "examples/auth/oauth1Flow.byte": pkg_curl
 "examples/auth/oauth1Flow.byte": pkg_str
@@ -78,7 +78,7 @@
 # Executable clientLoginFlow
 "examples/auth/clientLoginFlow.byte": use_gapi-ocaml
 "examples/auth/clientLoginFlow.byte": pkg_nethttpd
-"examples/auth/clientLoginFlow.byte": pkg_extlib
+"examples/auth/clientLoginFlow.byte": pkg_batteries
 "examples/auth/clientLoginFlow.byte": pkg_netstring
 "examples/auth/clientLoginFlow.byte": pkg_curl
 "examples/auth/clientLoginFlow.byte": pkg_str
@@ -86,7 +86,7 @@
 "examples/auth/clientLoginFlow.byte": pkg_yojson
 <examples/auth/*.ml{,i}>: use_gapi-ocaml
 <examples/auth/*.ml{,i}>: pkg_nethttpd
-<examples/auth/*.ml{,i}>: pkg_extlib
+<examples/auth/*.ml{,i}>: pkg_batteries
 <examples/auth/*.ml{,i}>: pkg_netstring
 <examples/auth/*.ml{,i}>: pkg_curl
 <examples/auth/*.ml{,i}>: pkg_str
@@ -95,7 +95,7 @@
 # Executable refreshOAuth2Token
 "src/test/refreshOAuth2Token.byte": use_gapi-ocaml
 "src/test/refreshOAuth2Token.byte": pkg_oUnit
-"src/test/refreshOAuth2Token.byte": pkg_extlib
+"src/test/refreshOAuth2Token.byte": pkg_batteries
 "src/test/refreshOAuth2Token.byte": pkg_netstring
 "src/test/refreshOAuth2Token.byte": pkg_curl
 "src/test/refreshOAuth2Token.byte": pkg_str
@@ -107,7 +107,7 @@
 "src/test/testSuite.byte": pkg_oUnit
 "src/test/testSuite.byte": pkg_monad
 "src/test/testSuite.byte": pkg_xmlm
-"src/test/testSuite.byte": pkg_extlib
+"src/test/testSuite.byte": pkg_batteries
 "src/test/testSuite.byte": pkg_netstring
 "src/test/testSuite.byte": pkg_curl
 "src/test/testSuite.byte": pkg_str
@@ -118,7 +118,7 @@
 <src/test/*.ml{,i}>: pkg_oUnit
 <src/test/*.ml{,i}>: pkg_monad
 <src/test/*.ml{,i}>: pkg_xmlm
-<src/test/*.ml{,i}>: pkg_extlib
+<src/test/*.ml{,i}>: pkg_batteries
 <src/test/*.ml{,i}>: pkg_netstring
 <src/test/*.ml{,i}>: pkg_curl
 <src/test/*.ml{,i}>: pkg_str

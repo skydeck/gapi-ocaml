@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 
 type ('a, 'b) t = {

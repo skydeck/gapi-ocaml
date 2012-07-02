@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 
 let debug_print start_time curl info_type info =

@@ -1,3 +1,5 @@
+open Extlib
+
 module OcamlnetPipe =
 struct
   type t = {

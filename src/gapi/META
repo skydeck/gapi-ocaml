@@ -2,7 +2,7 @@
 # DO NOT EDIT (digest: cbb434bd59645b40a7972c271f5af3da)
 version = "0.2.1"
 description = "Google APIs client library"
-requires = "extlib netstring curl str cryptokit yojson"
+requires = "batteries netstring curl str cryptokit yojson"
 archive(byte) = "gapi-ocaml.cma"
 archive(byte, plugin) = "gapi-ocaml.cma"
 archive(native) = "gapi-ocaml.cmxa"
