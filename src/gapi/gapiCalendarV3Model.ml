@@ -35,11 +35,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "background"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with background = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "foreground"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with foreground = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -139,11 +139,11 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "updated"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with updated = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -207,19 +207,19 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "value"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with value = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -236,7 +236,7 @@ end
 
 module AclRule =
 struct
-  module ScopeData =
+  module Scope =
   struct
     type t = {
       _type : string;
@@ -271,18 +271,18 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with _type = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "value"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with value = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.ScopeData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.Scope.parse" e x
     
   end
   
@@ -291,7 +291,7 @@ struct
     id : string;
     kind : string;
     role : string;
-    scope : ScopeData.t;
+    scope : Scope.t;
     
   }
   
@@ -321,7 +321,7 @@ struct
     id = "";
     kind = "";
     role = "";
-    scope = ScopeData.empty;
+    scope = Scope.empty;
     
   }
   
@@ -331,7 +331,7 @@ struct
       GapiJson.render_string_value "id" x.id;
       GapiJson.render_string_value "kind" x.kind;
       GapiJson.render_string_value "role" x.role;
-      (fun v -> GapiJson.render_object "scope" (ScopeData.render_content v)) x.scope;
+      (fun v -> GapiJson.render_object "scope" (Scope.render_content v)) x.scope;
       
     ]
   and render x = 
@@ -340,26 +340,26 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "role"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with role = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "scope"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        ScopeData.parse
-        ScopeData.empty
+        Scope.parse
+        Scope.empty
         (fun v -> { x with scope = v })
         cs
     | GapiCore.AnnotatedTree.Node
@@ -410,11 +410,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "domain"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with domain = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "reason"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with reason = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -469,7 +469,7 @@ struct
         (fun x' -> function
           | GapiCore.AnnotatedTree.Leaf
               ({ GapiJson.name = ""; data_type = GapiJson.Scalar },
-              Json_type.String v) ->
+              `String v) ->
             v
           | e ->
             GapiJson.unexpected "GapiCalendarV3Model.FreeBusyGroup.parse.parse_collection" e x')
@@ -531,7 +531,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -553,6 +553,7 @@ struct
     comment : string;
     displayName : string;
     email : string;
+    id : string;
     optional : bool;
     organizer : bool;
     resource : bool;
@@ -576,6 +577,10 @@ struct
   let email = {
     GapiLens.get = (fun x -> x.email);
     GapiLens.set = (fun v x -> { x with email = v });
+  }
+  let id = {
+    GapiLens.get = (fun x -> x.id);
+    GapiLens.set = (fun v x -> { x with id = v });
   }
   let optional = {
     GapiLens.get = (fun x -> x.optional);
@@ -603,6 +608,7 @@ struct
     comment = "";
     displayName = "";
     email = "";
+    id = "";
     optional = false;
     organizer = false;
     resource = false;
@@ -617,6 +623,7 @@ struct
       GapiJson.render_string_value "comment" x.comment;
       GapiJson.render_string_value "displayName" x.displayName;
       GapiJson.render_string_value "email" x.email;
+      GapiJson.render_string_value "id" x.id;
       GapiJson.render_bool_value "optional" x.optional;
       GapiJson.render_bool_value "organizer" x.organizer;
       GapiJson.render_bool_value "resource" x.resource;
@@ -630,39 +637,43 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "additionalGuests"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with additionalGuests = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "comment"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with comment = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "displayName"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with displayName = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "email"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with email = v }
     | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
+        `String v) ->
+      { x with id = v }
+    | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "optional"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with optional = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "organizer"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with organizer = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "resource"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with resource = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "responseStatus"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with responseStatus = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "self"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with self = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -719,15 +730,15 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "date"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with date = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "dateTime"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with dateTime = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeZone"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeZone = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -777,11 +788,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "method"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with _method = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "minutes"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with minutes = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -798,7 +809,7 @@ end
 
 module Event =
 struct
-  module RemindersData =
+  module Reminders =
   struct
     type t = {
       overrides : EventReminder.t list;
@@ -845,28 +856,30 @@ struct
                 (fun v -> v)
                 cs
             | e ->
-              GapiJson.unexpected "GapiCalendarV3Model.RemindersData.parse.parse_collection" e x')
+              GapiJson.unexpected "GapiCalendarV3Model.Reminders.parse.parse_collection" e x')
           EventReminder.empty
           (fun v -> { x with overrides = v })
           cs
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "useDefault"; data_type = GapiJson.Scalar },
-          Json_type.Bool v) ->
+          `Bool v) ->
         { x with useDefault = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.RemindersData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.Reminders.parse" e x
     
   end
   
-  module OrganizerData =
+  module Organizer =
   struct
     type t = {
       displayName : string;
       email : string;
+      id : string;
+      self : bool;
       
     }
     
@@ -878,10 +891,20 @@ struct
       GapiLens.get = (fun x -> x.email);
       GapiLens.set = (fun v x -> { x with email = v });
     }
+    let id = {
+      GapiLens.get = (fun x -> x.id);
+      GapiLens.set = (fun v x -> { x with id = v });
+    }
+    let self = {
+      GapiLens.get = (fun x -> x.self);
+      GapiLens.set = (fun v x -> { x with self = v });
+    }
     
     let empty = {
       displayName = "";
       email = "";
+      id = "";
+      self = false;
       
     }
     
@@ -889,6 +912,8 @@ struct
        [
         GapiJson.render_string_value "displayName" x.displayName;
         GapiJson.render_string_value "email" x.email;
+        GapiJson.render_string_value "id" x.id;
+        GapiJson.render_bool_value "self" x.self;
         
       ]
     and render x = 
@@ -897,22 +922,30 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "displayName"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with displayName = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "email"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with email = v }
+      | GapiCore.AnnotatedTree.Leaf
+          ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
+          `String v) ->
+        { x with id = v }
+      | GapiCore.AnnotatedTree.Leaf
+          ({ GapiJson.name = "self"; data_type = GapiJson.Scalar },
+          `Bool v) ->
+        { x with self = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.OrganizerData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.Organizer.parse" e x
     
   end
   
-  module GadgetData =
+  module Gadget =
   struct
     type t = {
       display : string;
@@ -989,19 +1022,19 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "display"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with display = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "height"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with height = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "iconLink"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with iconLink = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "link"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with link = v }
       | GapiCore.AnnotatedTree.Node
           ({ GapiJson.name = "preferences"; data_type = GapiJson.Object },
@@ -1010,35 +1043,35 @@ struct
           (fun x' -> function
             | GapiCore.AnnotatedTree.Leaf
                 ({ GapiJson.name = n; data_type = GapiJson.Scalar },
-                Json_type.String v) ->
+                `String v) ->
               (n, v)
             | e ->
-              GapiJson.unexpected "GapiCalendarV3Model.GadgetData.parse.parse_dictionary" e x')
+              GapiJson.unexpected "GapiCalendarV3Model.Gadget.parse.parse_dictionary" e x')
           ("", "")
           (fun v -> { x with preferences = v })
           cs
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "title"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with title = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with _type = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "width"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with width = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.GadgetData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.Gadget.parse" e x
     
   end
   
-  module ExtendedPropertiesData =
+  module ExtendedProperties =
   struct
     type t = {
       _private : (string * string) list;
@@ -1078,10 +1111,10 @@ struct
           (fun x' -> function
             | GapiCore.AnnotatedTree.Leaf
                 ({ GapiJson.name = n; data_type = GapiJson.Scalar },
-                Json_type.String v) ->
+                `String v) ->
               (n, v)
             | e ->
-              GapiJson.unexpected "GapiCalendarV3Model.ExtendedPropertiesData.parse.parse_dictionary" e x')
+              GapiJson.unexpected "GapiCalendarV3Model.ExtendedProperties.parse.parse_dictionary" e x')
           ("", "")
           (fun v -> { x with _private = v })
           cs
@@ -1092,10 +1125,10 @@ struct
           (fun x' -> function
             | GapiCore.AnnotatedTree.Leaf
                 ({ GapiJson.name = n; data_type = GapiJson.Scalar },
-                Json_type.String v) ->
+                `String v) ->
               (n, v)
             | e ->
-              GapiJson.unexpected "GapiCalendarV3Model.ExtendedPropertiesData.parse.parse_dictionary" e x')
+              GapiJson.unexpected "GapiCalendarV3Model.ExtendedProperties.parse.parse_dictionary" e x')
           ("", "")
           (fun v -> { x with shared = v })
           cs
@@ -1104,15 +1137,17 @@ struct
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.ExtendedPropertiesData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.ExtendedProperties.parse" e x
     
   end
   
-  module CreatorData =
+  module Creator =
   struct
     type t = {
       displayName : string;
       email : string;
+      id : string;
+      self : bool;
       
     }
     
@@ -1124,10 +1159,20 @@ struct
       GapiLens.get = (fun x -> x.email);
       GapiLens.set = (fun v x -> { x with email = v });
     }
+    let id = {
+      GapiLens.get = (fun x -> x.id);
+      GapiLens.set = (fun v x -> { x with id = v });
+    }
+    let self = {
+      GapiLens.get = (fun x -> x.self);
+      GapiLens.set = (fun v x -> { x with self = v });
+    }
     
     let empty = {
       displayName = "";
       email = "";
+      id = "";
+      self = false;
       
     }
     
@@ -1135,6 +1180,8 @@ struct
        [
         GapiJson.render_string_value "displayName" x.displayName;
         GapiJson.render_string_value "email" x.email;
+        GapiJson.render_string_value "id" x.id;
+        GapiJson.render_bool_value "self" x.self;
         
       ]
     and render x = 
@@ -1143,18 +1190,26 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "displayName"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with displayName = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "email"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with email = v }
+      | GapiCore.AnnotatedTree.Leaf
+          ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
+          `String v) ->
+        { x with id = v }
+      | GapiCore.AnnotatedTree.Leaf
+          ({ GapiJson.name = "self"; data_type = GapiJson.Scalar },
+          `Bool v) ->
+        { x with self = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiCalendarV3Model.CreatorData.parse" e x
+        GapiJson.unexpected "GapiCalendarV3Model.Creator.parse" e x
     
   end
   
@@ -1164,26 +1219,29 @@ struct
     attendeesOmitted : bool;
     colorId : string;
     created : GapiDate.t;
-    creator : CreatorData.t;
+    creator : Creator.t;
     description : string;
     _end : EventDateTime.t;
+    endTimeUnspecified : bool;
     etag : string;
-    extendedProperties : ExtendedPropertiesData.t;
-    gadget : GadgetData.t;
+    extendedProperties : ExtendedProperties.t;
+    gadget : Gadget.t;
     guestsCanInviteOthers : bool;
     guestsCanModify : bool;
     guestsCanSeeOtherGuests : bool;
+    hangoutLink : string;
     htmlLink : string;
     iCalUID : string;
     id : string;
     kind : string;
     location : string;
-    organizer : OrganizerData.t;
+    locked : bool;
+    organizer : Organizer.t;
     originalStartTime : EventDateTime.t;
     privateCopy : bool;
     recurrence : string list;
     recurringEventId : string;
-    reminders : RemindersData.t;
+    reminders : Reminders.t;
     sequence : int;
     start : EventDateTime.t;
     status : string;
@@ -1226,6 +1284,10 @@ struct
     GapiLens.get = (fun x -> x._end);
     GapiLens.set = (fun v x -> { x with _end = v });
   }
+  let endTimeUnspecified = {
+    GapiLens.get = (fun x -> x.endTimeUnspecified);
+    GapiLens.set = (fun v x -> { x with endTimeUnspecified = v });
+  }
   let etag = {
     GapiLens.get = (fun x -> x.etag);
     GapiLens.set = (fun v x -> { x with etag = v });
@@ -1250,6 +1312,10 @@ struct
     GapiLens.get = (fun x -> x.guestsCanSeeOtherGuests);
     GapiLens.set = (fun v x -> { x with guestsCanSeeOtherGuests = v });
   }
+  let hangoutLink = {
+    GapiLens.get = (fun x -> x.hangoutLink);
+    GapiLens.set = (fun v x -> { x with hangoutLink = v });
+  }
   let htmlLink = {
     GapiLens.get = (fun x -> x.htmlLink);
     GapiLens.set = (fun v x -> { x with htmlLink = v });
@@ -1269,6 +1335,10 @@ struct
   let location = {
     GapiLens.get = (fun x -> x.location);
     GapiLens.set = (fun v x -> { x with location = v });
+  }
+  let locked = {
+    GapiLens.get = (fun x -> x.locked);
+    GapiLens.set = (fun v x -> { x with locked = v });
   }
   let organizer = {
     GapiLens.get = (fun x -> x.organizer);
@@ -1329,26 +1399,29 @@ struct
     attendeesOmitted = false;
     colorId = "";
     created = GapiDate.epoch;
-    creator = CreatorData.empty;
+    creator = Creator.empty;
     description = "";
     _end = EventDateTime.empty;
+    endTimeUnspecified = false;
     etag = "";
-    extendedProperties = ExtendedPropertiesData.empty;
-    gadget = GadgetData.empty;
+    extendedProperties = ExtendedProperties.empty;
+    gadget = Gadget.empty;
     guestsCanInviteOthers = false;
     guestsCanModify = false;
     guestsCanSeeOtherGuests = false;
+    hangoutLink = "";
     htmlLink = "";
     iCalUID = "";
     id = "";
     kind = "";
     location = "";
-    organizer = OrganizerData.empty;
+    locked = false;
+    organizer = Organizer.empty;
     originalStartTime = EventDateTime.empty;
     privateCopy = false;
     recurrence = [];
     recurringEventId = "";
-    reminders = RemindersData.empty;
+    reminders = Reminders.empty;
     sequence = 0;
     start = EventDateTime.empty;
     status = "";
@@ -1366,26 +1439,29 @@ struct
       GapiJson.render_bool_value "attendeesOmitted" x.attendeesOmitted;
       GapiJson.render_string_value "colorId" x.colorId;
       GapiJson.render_date_value "created" x.created;
-      (fun v -> GapiJson.render_object "creator" (CreatorData.render_content v)) x.creator;
+      (fun v -> GapiJson.render_object "creator" (Creator.render_content v)) x.creator;
       GapiJson.render_string_value "description" x.description;
       (fun v -> GapiJson.render_object "end" (EventDateTime.render_content v)) x._end;
+      GapiJson.render_bool_value "endTimeUnspecified" x.endTimeUnspecified;
       GapiJson.render_string_value "etag" x.etag;
-      (fun v -> GapiJson.render_object "extendedProperties" (ExtendedPropertiesData.render_content v)) x.extendedProperties;
-      (fun v -> GapiJson.render_object "gadget" (GadgetData.render_content v)) x.gadget;
+      (fun v -> GapiJson.render_object "extendedProperties" (ExtendedProperties.render_content v)) x.extendedProperties;
+      (fun v -> GapiJson.render_object "gadget" (Gadget.render_content v)) x.gadget;
       GapiJson.render_bool_value "guestsCanInviteOthers" x.guestsCanInviteOthers;
       GapiJson.render_bool_value "guestsCanModify" x.guestsCanModify;
       GapiJson.render_bool_value "guestsCanSeeOtherGuests" x.guestsCanSeeOtherGuests;
+      GapiJson.render_string_value "hangoutLink" x.hangoutLink;
       GapiJson.render_string_value "htmlLink" x.htmlLink;
       GapiJson.render_string_value "iCalUID" x.iCalUID;
       GapiJson.render_string_value "id" x.id;
       GapiJson.render_string_value "kind" x.kind;
       GapiJson.render_string_value "location" x.location;
-      (fun v -> GapiJson.render_object "organizer" (OrganizerData.render_content v)) x.organizer;
+      GapiJson.render_bool_value "locked" x.locked;
+      (fun v -> GapiJson.render_object "organizer" (Organizer.render_content v)) x.organizer;
       (fun v -> GapiJson.render_object "originalStartTime" (EventDateTime.render_content v)) x.originalStartTime;
       GapiJson.render_bool_value "privateCopy" x.privateCopy;
       GapiJson.render_array "recurrence" (GapiJson.render_string_value "") x.recurrence;
       GapiJson.render_string_value "recurringEventId" x.recurringEventId;
-      (fun v -> GapiJson.render_object "reminders" (RemindersData.render_content v)) x.reminders;
+      (fun v -> GapiJson.render_object "reminders" (Reminders.render_content v)) x.reminders;
       GapiJson.render_int_value "sequence" x.sequence;
       (fun v -> GapiJson.render_object "start" (EventDateTime.render_content v)) x.start;
       GapiJson.render_string_value "status" x.status;
@@ -1401,7 +1477,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "anyoneCanAddSelf"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with anyoneCanAddSelf = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "attendees"; data_type = GapiJson.Array },
@@ -1423,27 +1499,27 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "attendeesOmitted"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with attendeesOmitted = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "colorId"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with colorId = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "created"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with created = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "creator"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        CreatorData.parse
-        CreatorData.empty
+        Creator.parse
+        Creator.empty
         (fun v -> { x with creator = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "description"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with description = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "end"; data_type = GapiJson.Object },
@@ -1454,63 +1530,75 @@ struct
         (fun v -> { x with _end = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "endTimeUnspecified"; data_type = GapiJson.Scalar },
+        `Bool v) ->
+      { x with endTimeUnspecified = v }
+    | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "extendedProperties"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        ExtendedPropertiesData.parse
-        ExtendedPropertiesData.empty
+        ExtendedProperties.parse
+        ExtendedProperties.empty
         (fun v -> { x with extendedProperties = v })
         cs
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "gadget"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        GadgetData.parse
-        GadgetData.empty
+        Gadget.parse
+        Gadget.empty
         (fun v -> { x with gadget = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "guestsCanInviteOthers"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with guestsCanInviteOthers = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "guestsCanModify"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with guestsCanModify = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "guestsCanSeeOtherGuests"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with guestsCanSeeOtherGuests = v }
     | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "hangoutLink"; data_type = GapiJson.Scalar },
+        `String v) ->
+      { x with hangoutLink = v }
+    | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "htmlLink"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with htmlLink = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "iCalUID"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with iCalUID = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "location"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with location = v }
+    | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "locked"; data_type = GapiJson.Scalar },
+        `Bool v) ->
+      { x with locked = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "organizer"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        OrganizerData.parse
-        OrganizerData.empty
+        Organizer.parse
+        Organizer.empty
         (fun v -> { x with organizer = v })
         cs
     | GapiCore.AnnotatedTree.Node
@@ -1523,7 +1611,7 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "privateCopy"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with privateCopy = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "recurrence"; data_type = GapiJson.Array },
@@ -1532,7 +1620,7 @@ struct
         (fun x' -> function
           | GapiCore.AnnotatedTree.Leaf
               ({ GapiJson.name = ""; data_type = GapiJson.Scalar },
-              Json_type.String v) ->
+              `String v) ->
             v
           | e ->
             GapiJson.unexpected "GapiCalendarV3Model.Event.parse.parse_collection" e x')
@@ -1541,19 +1629,19 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "recurringEventId"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with recurringEventId = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "reminders"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        RemindersData.parse
-        RemindersData.empty
+        Reminders.parse
+        Reminders.empty
         (fun v -> { x with reminders = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "sequence"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with sequence = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "start"; data_type = GapiJson.Object },
@@ -1565,23 +1653,23 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "status"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with status = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "summary"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with summary = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "transparency"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with transparency = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "updated"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with updated = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "visibility"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with visibility = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -1659,11 +1747,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "calendarExpansionMax"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with calendarExpansionMax = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "groupExpansionMax"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with groupExpansionMax = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "items"; data_type = GapiJson.Array },
@@ -1685,15 +1773,15 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeMax"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeMax = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeMin"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeMin = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeZone"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeZone = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -1757,7 +1845,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "items"; data_type = GapiJson.Array },
@@ -1779,11 +1867,11 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "nextPageToken"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with nextPageToken = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -1889,7 +1977,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "accessRole"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with accessRole = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "defaultReminders"; data_type = GapiJson.Array },
@@ -1911,11 +1999,11 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "description"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with description = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "items"; data_type = GapiJson.Array },
@@ -1933,23 +2021,23 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "nextPageToken"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with nextPageToken = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "summary"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with summary = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeZone"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeZone = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "updated"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with updated = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2006,7 +2094,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "items"; data_type = GapiJson.Array },
@@ -2028,7 +2116,7 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2113,31 +2201,31 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "description"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with description = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "location"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with location = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "summary"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with summary = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeZone"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeZone = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2187,11 +2275,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "end"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with _end = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "start"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with start = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2210,10 +2298,12 @@ module CalendarListEntry =
 struct
   type t = {
     accessRole : string;
+    backgroundColor : string;
     colorId : string;
     defaultReminders : EventReminder.t list;
     description : string;
     etag : string;
+    foregroundColor : string;
     hidden : bool;
     id : string;
     kind : string;
@@ -2228,6 +2318,10 @@ struct
   let accessRole = {
     GapiLens.get = (fun x -> x.accessRole);
     GapiLens.set = (fun v x -> { x with accessRole = v });
+  }
+  let backgroundColor = {
+    GapiLens.get = (fun x -> x.backgroundColor);
+    GapiLens.set = (fun v x -> { x with backgroundColor = v });
   }
   let colorId = {
     GapiLens.get = (fun x -> x.colorId);
@@ -2244,6 +2338,10 @@ struct
   let etag = {
     GapiLens.get = (fun x -> x.etag);
     GapiLens.set = (fun v x -> { x with etag = v });
+  }
+  let foregroundColor = {
+    GapiLens.get = (fun x -> x.foregroundColor);
+    GapiLens.set = (fun v x -> { x with foregroundColor = v });
   }
   let hidden = {
     GapiLens.get = (fun x -> x.hidden);
@@ -2280,10 +2378,12 @@ struct
   
   let empty = {
     accessRole = "";
+    backgroundColor = "";
     colorId = "";
     defaultReminders = [];
     description = "";
     etag = "";
+    foregroundColor = "";
     hidden = false;
     id = "";
     kind = "";
@@ -2298,10 +2398,12 @@ struct
   let rec render_content x = 
      [
       GapiJson.render_string_value "accessRole" x.accessRole;
+      GapiJson.render_string_value "backgroundColor" x.backgroundColor;
       GapiJson.render_string_value "colorId" x.colorId;
       GapiJson.render_array "defaultReminders" EventReminder.render x.defaultReminders;
       GapiJson.render_string_value "description" x.description;
       GapiJson.render_string_value "etag" x.etag;
+      GapiJson.render_string_value "foregroundColor" x.foregroundColor;
       GapiJson.render_bool_value "hidden" x.hidden;
       GapiJson.render_string_value "id" x.id;
       GapiJson.render_string_value "kind" x.kind;
@@ -2318,11 +2420,15 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "accessRole"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with accessRole = v }
     | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "backgroundColor"; data_type = GapiJson.Scalar },
+        `String v) ->
+      { x with backgroundColor = v }
+    | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "colorId"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with colorId = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "defaultReminders"; data_type = GapiJson.Array },
@@ -2344,43 +2450,47 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "description"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with description = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Leaf
+        ({ GapiJson.name = "foregroundColor"; data_type = GapiJson.Scalar },
+        `String v) ->
+      { x with foregroundColor = v }
+    | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "hidden"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with hidden = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "location"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with location = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "selected"; data_type = GapiJson.Scalar },
-        Json_type.Bool v) ->
+        `Bool v) ->
       { x with selected = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "summary"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with summary = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "summaryOverride"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with summaryOverride = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeZone"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeZone = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2565,15 +2675,15 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeMax"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeMax = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "timeMin"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with timeMin = GapiDate.of_string v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -2637,7 +2747,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "etag"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with etag = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "items"; data_type = GapiJson.Array },
@@ -2659,11 +2769,11 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "nextPageToken"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with nextPageToken = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },

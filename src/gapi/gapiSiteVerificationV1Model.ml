@@ -2,7 +2,7 @@
 
 module SiteVerificationWebResourceResource =
 struct
-  module SiteData =
+  module Site =
   struct
     type t = {
       identifier : string;
@@ -37,25 +37,25 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "identifier"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with identifier = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with _type = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiSiteVerificationV1Model.SiteData.parse" e x
+        GapiJson.unexpected "GapiSiteVerificationV1Model.Site.parse" e x
     
   end
   
   type t = {
     id : string;
     owners : string list;
-    site : SiteData.t;
+    site : Site.t;
     
   }
   
@@ -75,7 +75,7 @@ struct
   let empty = {
     id = "";
     owners = [];
-    site = SiteData.empty;
+    site = Site.empty;
     
   }
   
@@ -83,7 +83,7 @@ struct
      [
       GapiJson.render_string_value "id" x.id;
       GapiJson.render_array "owners" (GapiJson.render_string_value "") x.owners;
-      (fun v -> GapiJson.render_object "site" (SiteData.render_content v)) x.site;
+      (fun v -> GapiJson.render_object "site" (Site.render_content v)) x.site;
       
     ]
   and render x = 
@@ -92,7 +92,7 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "owners"; data_type = GapiJson.Array },
@@ -101,7 +101,7 @@ struct
         (fun x' -> function
           | GapiCore.AnnotatedTree.Leaf
               ({ GapiJson.name = ""; data_type = GapiJson.Scalar },
-              Json_type.String v) ->
+              `String v) ->
             v
           | e ->
             GapiJson.unexpected "GapiSiteVerificationV1Model.SiteVerificationWebResourceResource.parse.parse_collection" e x')
@@ -112,8 +112,8 @@ struct
         ({ GapiJson.name = "site"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        SiteData.parse
-        SiteData.empty
+        Site.parse
+        Site.empty
         (fun v -> { x with site = v })
         cs
     | GapiCore.AnnotatedTree.Node
@@ -164,11 +164,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "method"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with _method = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "token"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with token = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -242,7 +242,7 @@ end
 
 module SiteVerificationWebResourceGettokenRequest =
 struct
-  module SiteData =
+  module Site =
   struct
     type t = {
       identifier : string;
@@ -277,23 +277,23 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "identifier"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with identifier = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with _type = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiSiteVerificationV1Model.SiteData.parse" e x
+        GapiJson.unexpected "GapiSiteVerificationV1Model.Site.parse" e x
     
   end
   
   type t = {
-    site : SiteData.t;
+    site : Site.t;
     verificationMethod : string;
     
   }
@@ -308,14 +308,14 @@ struct
   }
   
   let empty = {
-    site = SiteData.empty;
+    site = Site.empty;
     verificationMethod = "";
     
   }
   
   let rec render_content x = 
      [
-      (fun v -> GapiJson.render_object "site" (SiteData.render_content v)) x.site;
+      (fun v -> GapiJson.render_object "site" (Site.render_content v)) x.site;
       GapiJson.render_string_value "verificationMethod" x.verificationMethod;
       
     ]
@@ -327,13 +327,13 @@ struct
         ({ GapiJson.name = "site"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        SiteData.parse
-        SiteData.empty
+        Site.parse
+        Site.empty
         (fun v -> { x with site = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "verificationMethod"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with verificationMethod = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },

@@ -8,11 +8,17 @@
   {{:http://code.google.com/apis/siteverification/}API Documentation}.
   *)
 
-(** Manage the list of sites and domains you control *)
-val scope : string
-
-(** Manage your new site verifications with Google *)
-val scope_verify_only : string
+module Scope :
+sig
+  val siteverification : string
+  (** Manage the list of sites and domains you control *)
+  
+  val siteverification_verify_only : string
+  (** Manage your new site verifications with Google *)
+  
+  
+end
+(** Service Auth Scopes *)
 
 module WebResourceResource :
 sig
@@ -33,11 +39,13 @@ sig
   (** Get the most current data for a website or domain.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/siteVerification/v1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param id The id of a verified site or domain.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     id:string ->
     GapiConversation.Session.t ->

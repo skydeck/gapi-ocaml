@@ -5,14 +5,20 @@
   Gives AdSense publishers access to their inventory and the ability to generate reports.
   
   For more information about this service, see the
-  {{:https://code.google.com/apis/adsense/management/}API Documentation}.
+  {{:https://developers.google.com/adsense/management/}API Documentation}.
   *)
 
-(** View and manage your AdSense data *)
-val scope : string
-
-(** View your AdSense data *)
-val scope_readonly : string
+module Scope :
+sig
+  val adsense : string
+  (** View and manage your AdSense data *)
+  
+  val adsense_readonly : string
+  (** View your AdSense data *)
+  
+  
+end
+(** Service Auth Scopes *)
 
 module AccountsResource :
 sig
@@ -115,6 +121,7 @@ sig
     (** Get the specified custom channel from the specified ad client for the specified account.
       
       @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/adsense/v1.1/"]).
+      @param etag Optional ETag.
       @param std_params Optional standard parameters.
       @param accountId Account to which the ad client belongs.
       @param adClientId Ad client which contains the custom channel.
@@ -122,6 +129,7 @@ sig
       *)
     val get :
       ?base_url:string ->
+      ?etag:string ->
       ?std_params:GapiService.StandardParameters.t ->
       accountId:string ->
       adClientId:string ->
@@ -184,6 +192,7 @@ sig
     (** Gets the specified ad unit in the specified ad client for the specified account.
       
       @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/adsense/v1.1/"]).
+      @param etag Optional ETag.
       @param std_params Optional standard parameters.
       @param accountId Account to which the ad client belongs.
       @param adClientId Ad client for which to get the ad unit.
@@ -191,6 +200,7 @@ sig
       *)
     val get :
       ?base_url:string ->
+      ?etag:string ->
       ?std_params:GapiService.StandardParameters.t ->
       accountId:string ->
       adClientId:string ->
@@ -249,12 +259,14 @@ sig
   (** Get information about the selected AdSense account.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/adsense/v1.1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param tree Whether the tree of sub accounts should be returned.
     @param accountId Account to get information about.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     ?tree:bool ->
     accountId:string ->
@@ -331,12 +343,14 @@ sig
   (** Gets the specified ad unit in the specified ad client.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/adsense/v1.1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param adClientId Ad client for which to get the ad unit.
     @param adUnitId Ad unit to retrieve.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     adClientId:string ->
     adUnitId:string ->
@@ -398,12 +412,14 @@ sig
   (** Get the specified custom channel from the specified ad client.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/adsense/v1.1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param adClientId Ad client which contains the custom channel.
     @param customChannelId Custom channel to retrieve.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     adClientId:string ->
     customChannelId:string ->

@@ -71,8 +71,7 @@ struct
 end
 
 let get_anonymous_type_module_name id =
-  let module_base_name = OCamlName.get_ocaml_name ModuleName id in
-    module_base_name ^ "Data"
+  OCamlName.get_ocaml_name ModuleName id
 
 (* END Symbol name generation *)
 
@@ -126,6 +125,7 @@ struct
       String
     | Boolean
     | Integer
+    | Int64
     | Float
     | DateTime
     | Date
@@ -134,6 +134,7 @@ struct
       String -> "string"
     | Boolean -> "bool"
     | Integer -> "int"
+    | Int64 -> "int64"
     | Float -> "float"
     | DateTime
     | Date -> "GapiDate.t"
@@ -216,6 +217,7 @@ struct
       String -> "\"\""
     | Boolean -> "false"
     | Integer -> "0"
+    | Int64 -> "0L"
     | Float -> "0.0"
     | DateTime
     | Date -> "GapiDate.epoch"
@@ -235,6 +237,7 @@ struct
             begin match format with
                 DateTimeFormat -> DateTime
               | DateFormat -> Date
+              | Int64Format -> Int64
               | _ -> String
             end
         | "any" -> String
@@ -267,14 +270,16 @@ struct
   let get_json_type = function
       String
     | DateTime
-    | Date -> "String"
-    | Boolean -> "Bool"
-    | Integer -> "Int"
-    | Float -> "Float"
+    | Date -> "`String"
+    | Boolean -> "`Bool"
+    | Integer -> "`Int"
+    | Int64 -> "`String"
+    | Float -> "`Float"
 
   let get_convert_function = function
     | DateTime
     | Date -> "GapiDate.of_string "
+    | Int64 -> "Int64.of_string "
     | String
     | Boolean
     | Integer
@@ -286,6 +291,7 @@ struct
     else
       match scalar.data_type with
           String -> "\"" ^ scalar.default ^ "\""
+        | Int64 -> scalar.default ^ "L"
         | Boolean
         | Integer
         | DateTime
@@ -297,6 +303,7 @@ struct
         String -> "(fun x -> x)"
       | Boolean -> "string_of_bool"
       | Integer -> "string_of_int"
+      | Int64 -> "Int64.to_string"
       | Float -> "string_of_float"
       | DateTime
       | Date -> "GapiDate.to_string"
@@ -741,6 +748,7 @@ struct
     parameter_order : string list;
     request : Field.t option;
     response : Field.t option;
+    supports_media_upload : bool;
   }
 
 	let original_name = {
@@ -763,6 +771,10 @@ struct
 		GapiLens.get = (fun x -> x.parameter_order);
 		GapiLens.set = (fun v x -> { x with parameter_order = v })
 	}
+	let supports_media_upload = {
+		GapiLens.get = (fun x -> x.supports_media_upload);
+		GapiLens.set = (fun v x -> { x with supports_media_upload = v })
+	}
   let parameter id = GapiLens.for_assoc id
 
   let get_parameter_lens id =
@@ -774,6 +786,7 @@ struct
         description
         request_ref
         response_ref
+        supports_media_upload
         type_table =
     let get_field_from_ref reference =
       if reference = "" then None
@@ -806,6 +819,7 @@ struct
         parameter_order = [];
         request;
         response;
+        supports_media_upload;
       }
 
 end

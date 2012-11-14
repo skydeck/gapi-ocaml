@@ -3,9 +3,14 @@ open Extlib
 open GapiUtils.Infix
 open GapiAdsenseV1_1Model
 
-let scope = "https://www.googleapis.com/auth/adsense"
-
-let scope_readonly = "https://www.googleapis.com/auth/adsense.readonly"
+module Scope =
+struct
+  let adsense = "https://www.googleapis.com/auth/adsense"
+  
+  let adsense_readonly = "https://www.googleapis.com/auth/adsense.readonly"
+  
+  
+end
 
 module AccountsResource =
 struct
@@ -237,6 +242,7 @@ struct
     
     let get
           ?(base_url = "https://www.googleapis.com/adsense/v1.1/")
+          ?etag
           ?std_params
           ~accountId
           ~adClientId
@@ -249,7 +255,7 @@ struct
         ?standard_parameters:std_params () in
       let query_parameters = Option.map AdunitsParameters.to_key_value_list
         params in
-      GapiService.get ?query_parameters full_url
+      GapiService.get ?query_parameters ?etag full_url
         (GapiJson.parse_json_response AdUnit.of_data_model) session 
       
     let list
@@ -427,6 +433,7 @@ struct
     
     let get
           ?(base_url = "https://www.googleapis.com/adsense/v1.1/")
+          ?etag
           ?std_params
           ~accountId
           ~adClientId
@@ -439,7 +446,7 @@ struct
         ?standard_parameters:std_params () in
       let query_parameters = Option.map
         CustomchannelsParameters.to_key_value_list params in
-      GapiService.get ?query_parameters full_url
+      GapiService.get ?query_parameters ?etag full_url
         (GapiJson.parse_json_response CustomChannel.of_data_model) session 
       
     let list
@@ -738,6 +745,7 @@ struct
   
   let get
         ?(base_url = "https://www.googleapis.com/adsense/v1.1/")
+        ?etag
         ?std_params
         ?tree
         ~accountId
@@ -748,7 +756,7 @@ struct
       ?standard_parameters:std_params ?tree () in
     let query_parameters = Option.map AccountsParameters.to_key_value_list
       params in
-    GapiService.get ?query_parameters full_url
+    GapiService.get ?query_parameters ?etag full_url
       (GapiJson.parse_json_response Account.of_data_model) session 
     
   let list
@@ -993,6 +1001,7 @@ struct
   
   let get
         ?(base_url = "https://www.googleapis.com/adsense/v1.1/")
+        ?etag
         ?std_params
         ~adClientId
         ~adUnitId
@@ -1004,7 +1013,7 @@ struct
       ?standard_parameters:std_params () in
     let query_parameters = Option.map AdunitsParameters.to_key_value_list
       params in
-    GapiService.get ?query_parameters full_url
+    GapiService.get ?query_parameters ?etag full_url
       (GapiJson.parse_json_response AdUnit.of_data_model) session 
     
   let list
@@ -1178,6 +1187,7 @@ struct
   
   let get
         ?(base_url = "https://www.googleapis.com/adsense/v1.1/")
+        ?etag
         ?std_params
         ~adClientId
         ~customChannelId
@@ -1189,7 +1199,7 @@ struct
       ?standard_parameters:std_params () in
     let query_parameters = Option.map
       CustomchannelsParameters.to_key_value_list params in
-    GapiService.get ?query_parameters full_url
+    GapiService.get ?query_parameters ?etag full_url
       (GapiJson.parse_json_response CustomChannel.of_data_model) session 
     
   let list

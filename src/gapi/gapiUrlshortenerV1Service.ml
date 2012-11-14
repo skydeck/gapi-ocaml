@@ -3,7 +3,12 @@ open Extlib
 open GapiUtils.Infix
 open GapiUrlshortenerV1Model
 
-let scope = "https://www.googleapis.com/auth/urlshortener"
+module Scope =
+struct
+  let urlshortener = "https://www.googleapis.com/auth/urlshortener"
+  
+  
+end
 
 module UrlResource =
 struct
@@ -95,6 +100,7 @@ struct
   
   let get
         ?(base_url = "https://www.googleapis.com/urlshortener/v1/")
+        ?etag
         ?std_params
         ?projection
         ~shortUrl
@@ -104,7 +110,7 @@ struct
       ?standard_parameters:std_params ?projection ~shortUrl () in
     let query_parameters = Option.map UrlParameters.to_key_value_list params
       in
-    GapiService.get ?query_parameters full_url
+    GapiService.get ?query_parameters ?etag full_url
       (GapiJson.parse_json_response Url.of_data_model) session 
     
   let insert

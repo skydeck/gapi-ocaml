@@ -3,7 +3,7 @@
 (** Data definition for BigQuery API (v2).
   
   For more information about this data model, see the
-  {{:https://code.google.com/apis/bigquery/docs/v2/}API Documentation}.
+  {{:https://developers.google.com/bigquery/docs/overview}API Documentation}.
   *)
 
 module TableReference :
@@ -41,14 +41,17 @@ sig
     (** [Optional] Whether or not to create a new table, if none exists. *)
     destinationTable : TableReference.t;
     (** [Required] The destination table of the link job. *)
-    sourceUri : string;
+    sourceUri : string list;
     (** [Required] URI of source table to link. *)
+    writeDisposition : string;
+    (** [Optional] Whether to overwrite an existing table (WRITE_TRUNCATE), append to an existing table (WRITE_APPEND), or require that the the table is empty (WRITE_EMPTY). Default is WRITE_APPEND. *)
     
   }
   
   val createDisposition : (t, string) GapiLens.t
   val destinationTable : (t, TableReference.t) GapiLens.t
-  val sourceUri : (t, string) GapiLens.t
+  val sourceUri : (t, string list) GapiLens.t
+  val writeDisposition : (t, string) GapiLens.t
   
   val empty : t
   
@@ -121,33 +124,37 @@ sig
   
 end
 
-module TableRow :
+module TableCell :
 sig
-  module FData :
-  sig
-    type t = {
-      v : string;
-      (** Contains the field value in this row, as a string. *)
-      
-    }
-    
-    val v : (t, string) GapiLens.t
-    
-    val empty : t
-    
-    val render : t -> GapiJson.json_data_model list
-    
-    val parse : t -> GapiJson.json_data_model -> t
-    
-  end
-  
   type t = {
-    f : FData.t list;
-    (** Represents a single row in the result set, consisting of one or more fields. *)
+    v : string;
+    (**  *)
     
   }
   
-  val f : (t, FData.t list) GapiLens.t
+  val v : (t, string) GapiLens.t
+  
+  val empty : t
+  
+  val render : t -> GapiJson.json_data_model list
+  
+  val parse : t -> GapiJson.json_data_model -> t
+  
+  val to_data_model : t -> GapiJson.json_data_model
+  
+  val of_data_model : GapiJson.json_data_model -> t
+  
+end
+
+module TableRow :
+sig
+  type t = {
+    f : TableCell.t list;
+    (**  *)
+    
+  }
+  
+  val f : (t, TableCell.t list) GapiLens.t
   
   val empty : t
   
@@ -168,17 +175,73 @@ sig
     (** A hash of this page of results. *)
     kind : string;
     (** The resource type of the response. *)
+    pageToken : string;
+    (** A token used for paging results. Providing this token instead of the startRow parameter can help you retrieve stable results when an underlying table is changing. *)
     rows : TableRow.t list;
     (** Rows of results. *)
-    totalRows : string;
+    totalRows : int64;
     (** The total number of rows in the complete table. *)
     
   }
   
   val etag : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
+  val pageToken : (t, string) GapiLens.t
   val rows : (t, TableRow.t list) GapiLens.t
-  val totalRows : (t, string) GapiLens.t
+  val totalRows : (t, int64) GapiLens.t
+  
+  val empty : t
+  
+  val render : t -> GapiJson.json_data_model list
+  
+  val parse : t -> GapiJson.json_data_model -> t
+  
+  val to_data_model : t -> GapiJson.json_data_model
+  
+  val of_data_model : GapiJson.json_data_model -> t
+  
+end
+
+module JobStatistics3 :
+sig
+  type t = {
+    inputFileBytes : int64;
+    (** [Output-only] Number of bytes of source data in a joad job. *)
+    inputFiles : int64;
+    (** [Output-only] Number of source files in a load job. *)
+    outputBytes : int64;
+    (** [Output-only] Size of the loaded data in bytes. Note that while an import job is in the running state, this value may change. *)
+    outputRows : int64;
+    (** [Output-only] Number of rows imported in a load job. Note that while an import job is in the running state, this value may change. *)
+    
+  }
+  
+  val inputFileBytes : (t, int64) GapiLens.t
+  val inputFiles : (t, int64) GapiLens.t
+  val outputBytes : (t, int64) GapiLens.t
+  val outputRows : (t, int64) GapiLens.t
+  
+  val empty : t
+  
+  val render : t -> GapiJson.json_data_model list
+  
+  val parse : t -> GapiJson.json_data_model -> t
+  
+  val to_data_model : t -> GapiJson.json_data_model
+  
+  val of_data_model : GapiJson.json_data_model -> t
+  
+end
+
+module JobStatistics2 :
+sig
+  type t = {
+    totalBytesProcessed : int64;
+    (** [Output-only] Total bytes processed for this job. *)
+    
+  }
+  
+  val totalBytesProcessed : (t, int64) GapiLens.t
   
   val empty : t
   
@@ -195,18 +258,24 @@ end
 module JobStatistics :
 sig
   type t = {
-    endTime : string;
+    endTime : int64;
     (** [Output-only] End time of this job, in milliseconds since the epoch. *)
-    startTime : string;
+    load : JobStatistics3.t;
+    (** [Output-only] Statistics for a load job. *)
+    query : JobStatistics2.t;
+    (** [Output-only] Statistics for a query job. *)
+    startTime : int64;
     (** [Output-only] Start time of this job, in milliseconds since the epoch. *)
-    totalBytesProcessed : string;
-    (** [Output-only] Total bytes processed for this job. *)
+    totalBytesProcessed : int64;
+    (** [Output-only] [Deprecated] Use the bytes processed in the query statistics instead. *)
     
   }
   
-  val endTime : (t, string) GapiLens.t
-  val startTime : (t, string) GapiLens.t
-  val totalBytesProcessed : (t, string) GapiLens.t
+  val endTime : (t, int64) GapiLens.t
+  val load : (t, JobStatistics3.t) GapiLens.t
+  val query : (t, JobStatistics2.t) GapiLens.t
+  val startTime : (t, int64) GapiLens.t
+  val totalBytesProcessed : (t, int64) GapiLens.t
   
   val empty : t
   
@@ -256,14 +325,23 @@ end
 module JobConfigurationExtract :
 sig
   type t = {
+    destinationFormat : string;
+    (** [Experimental] Optional and defaults to CSV. Format with which files should be exported. To export to CSV, specify "CSV". Tables with nested or repeated fields cannot be exported as CSV. To export to newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". *)
     destinationUri : string;
     (** [Required] The fully-qualified Google Cloud Storage URI where the extracted table should be written. *)
+    fieldDelimiter : string;
+    (** [Optional] Delimiter to use between fields in the exported data. Default is ',' *)
+    printHeader : bool;
+    (** [Optional] Whether to print out a heder row in the results. Default is true. *)
     sourceTable : TableReference.t;
     (** [Required] A reference to the table being exported. *)
     
   }
   
+  val destinationFormat : (t, string) GapiLens.t
   val destinationUri : (t, string) GapiLens.t
+  val fieldDelimiter : (t, string) GapiLens.t
+  val printHeader : (t, bool) GapiLens.t
   val sourceTable : (t, TableReference.t) GapiLens.t
   
   val empty : t
@@ -334,6 +412,8 @@ end
 module JobConfigurationLoad :
 sig
   type t = {
+    allowQuotedNewlines : bool;
+    (** [Experimental] Whether to allow quoted newlines in the source CSV data. *)
     createDisposition : string;
     (** [Optional] Whether to create the table if it doesn't already exist (CREATE_IF_NEEDED) or to require the table already exist (CREATE_NEVER). Default is CREATE_IF_NEEDED. *)
     destinationTable : TableReference.t;
@@ -341,13 +421,21 @@ sig
     encoding : string;
     (** [Optional] Character encoding of the input data. May be UTF-8 or ISO-8859-1. Default is UTF-8. *)
     fieldDelimiter : string;
-    (** [Optional] Delimiter to use between fields in the import data. Default is ',' *)
+    (** [Optional] Delimiter to use between fields in the import data. Default is ','. Note that delimiters are applied to the raw, binary data before the encoding is applied. *)
     maxBadRecords : int;
     (** [Optional] Maximum number of bad records that should be ignored before the entire job is aborted and no updates are performed. *)
+    quote : string;
+    (** [Optional] Quote character to use. Default is '"'. Note that quoting is done on the raw, binary data before the encoding is applied. If no quoting is done, use am empty string. *)
     schema : TableSchema.t;
     (** [Optional] Schema of the table being written to. *)
+    schemaInline : string;
+    (** [Experimental] Inline schema. For CSV schemas, specify as "Field1:Type1[,Field2:Type2]*". For example, "foo:STRING, bar:INTEGER, baz:FLOAT" *)
+    schemaInlineFormat : string;
+    (** [Experimental] Format of inlineSchema field. *)
     skipLeadingRows : int;
     (** [Optional] Number of rows of initial data to skip in the data being imported. *)
+    sourceFormat : string;
+    (** [Experimental] Optional and defaults to CSV. Format of source files. For CSV uploads, specify "CSV". For imports of datastore backups, specify "DATASTORE_BACKUP". For imports of newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". *)
     sourceUris : string list;
     (** [Required] Source URIs describing Google Cloud Storage locations of data to load. *)
     writeDisposition : string;
@@ -355,13 +443,18 @@ sig
     
   }
   
+  val allowQuotedNewlines : (t, bool) GapiLens.t
   val createDisposition : (t, string) GapiLens.t
   val destinationTable : (t, TableReference.t) GapiLens.t
   val encoding : (t, string) GapiLens.t
   val fieldDelimiter : (t, string) GapiLens.t
   val maxBadRecords : (t, int) GapiLens.t
+  val quote : (t, string) GapiLens.t
   val schema : (t, TableSchema.t) GapiLens.t
+  val schemaInline : (t, string) GapiLens.t
+  val schemaInlineFormat : (t, string) GapiLens.t
   val skipLeadingRows : (t, int) GapiLens.t
+  val sourceFormat : (t, string) GapiLens.t
   val sourceUris : (t, string list) GapiLens.t
   val writeDisposition : (t, string) GapiLens.t
   
@@ -411,6 +504,8 @@ sig
     (** [Optional] Specifies the default dataset to assume for unqualified table names in the query. *)
     destinationTable : TableReference.t;
     (** [Optional] Describes the table where the query results should be stored. If not present, a new table will be created to store the results. *)
+    priority : string;
+    (** [Optional] Specifies a priority for the query. Default is INTERACTIVE. Alternative is BATCH. *)
     query : string;
     (** [Required] BigQuery SQL query to execute. *)
     writeDisposition : string;
@@ -421,6 +516,7 @@ sig
   val createDisposition : (t, string) GapiLens.t
   val defaultDataset : (t, DatasetReference.t) GapiLens.t
   val destinationTable : (t, TableReference.t) GapiLens.t
+  val priority : (t, string) GapiLens.t
   val query : (t, string) GapiLens.t
   val writeDisposition : (t, string) GapiLens.t
   
@@ -565,7 +661,7 @@ end
 
 module ProjectList :
 sig
-  module ProjectsData :
+  module Projects :
   sig
     type t = {
       friendlyName : string;
@@ -599,7 +695,7 @@ sig
     (** The type of list. *)
     nextPageToken : string;
     (** A token to request the next page of results. *)
-    projects : ProjectsData.t list;
+    projects : Projects.t list;
     (** Projects to which you have at least READ access. *)
     totalItems : int;
     (** The total number of projects in the list. *)
@@ -609,7 +705,7 @@ sig
   val etag : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
   val nextPageToken : (t, string) GapiLens.t
-  val projects : (t, ProjectsData.t list) GapiLens.t
+  val projects : (t, Projects.t list) GapiLens.t
   val totalItems : (t, int) GapiLens.t
   
   val empty : t
@@ -626,7 +722,7 @@ end
 
 module JobList :
 sig
-  module JobsData :
+  module Jobs :
   sig
     type t = {
       configuration : JobConfiguration.t;
@@ -668,7 +764,7 @@ sig
   type t = {
     etag : string;
     (** A hash of this page of results. *)
-    jobs : JobsData.t list;
+    jobs : Jobs.t list;
     (** List of jobs that were requested. *)
     kind : string;
     (** The resource type of the response. *)
@@ -680,7 +776,7 @@ sig
   }
   
   val etag : (t, string) GapiLens.t
-  val jobs : (t, JobsData.t list) GapiLens.t
+  val jobs : (t, Jobs.t list) GapiLens.t
   val kind : (t, string) GapiLens.t
   val nextPageToken : (t, string) GapiLens.t
   val totalItems : (t, int) GapiLens.t
@@ -700,21 +796,23 @@ end
 module Table :
 sig
   type t = {
-    creationTime : string;
+    creationTime : int64;
     (** [Output-only] The time when this table was created, in milliseconds since the epoch. *)
     description : string;
     (** [Optional] A user-friendly description of this table. *)
     etag : string;
     (** [Output-only] A hash of this resource. *)
+    expirationTime : int64;
+    (** [Optional] The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. *)
     friendlyName : string;
     (** [Optional] A descriptive name for this table. *)
     id : string;
     (** [Output-only] An opaque ID uniquely identifying the table. *)
     kind : string;
     (** [Output-only] The type of the resource. *)
-    lastModifiedTime : string;
+    lastModifiedTime : int64;
     (** [Output-only] The time when this table was last modified, in milliseconds since the epoch. *)
-    numBytes : string;
+    numBytes : int64;
     (** [Output-only] The size of the table in bytes. *)
     numRows : string;
     (** [Output-only] The number of rows of data in this table. *)
@@ -727,14 +825,15 @@ sig
     
   }
   
-  val creationTime : (t, string) GapiLens.t
+  val creationTime : (t, int64) GapiLens.t
   val description : (t, string) GapiLens.t
   val etag : (t, string) GapiLens.t
+  val expirationTime : (t, int64) GapiLens.t
   val friendlyName : (t, string) GapiLens.t
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
-  val lastModifiedTime : (t, string) GapiLens.t
-  val numBytes : (t, string) GapiLens.t
+  val lastModifiedTime : (t, int64) GapiLens.t
+  val numBytes : (t, int64) GapiLens.t
   val numRows : (t, string) GapiLens.t
   val schema : (t, TableSchema.t) GapiLens.t
   val selfLink : (t, string) GapiLens.t
@@ -754,7 +853,7 @@ end
 
 module DatasetList :
 sig
-  module DatasetsData :
+  module Datasets :
   sig
     type t = {
       datasetReference : DatasetReference.t;
@@ -782,7 +881,7 @@ sig
   end
   
   type t = {
-    datasets : DatasetsData.t list;
+    datasets : Datasets.t list;
     (** An array of one or more summarized dataset resources. Absent when there are no datasets in the specified project. *)
     etag : string;
     (** A hash of this page of results. See Paging Through Results in the developer's guide. *)
@@ -793,7 +892,7 @@ sig
     
   }
   
-  val datasets : (t, DatasetsData.t list) GapiLens.t
+  val datasets : (t, Datasets.t list) GapiLens.t
   val etag : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
   val nextPageToken : (t, string) GapiLens.t
@@ -818,7 +917,7 @@ sig
     jobComplete : bool;
     (** Whether the query has completed or not. If rows or totalRows are present, this will always be true. If this is false, totalRows will not be available. *)
     jobReference : JobReference.t;
-    (** Reference to the Helix Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). *)
+    (** Reference to the BigQuery Job that was created to run the query. This field will be present even if the original request timed out, in which case GetQueryResults can be used to read the results once the query has completed. Since this API only returns the first page of results, subsequent pages can be fetched via the same mechanism (GetQueryResults). *)
     kind : string;
     (** The resource type of the response. *)
     rows : TableRow.t list;
@@ -855,6 +954,8 @@ sig
   type t = {
     defaultDataset : DatasetReference.t;
     (** [Optional] Specifies the default datasetId and projectId to assume for any unqualified table names in the query. If not set, all table names in the query string must be fully-qualified in the format projectId:datasetId.tableid. *)
+    dryRun : bool;
+    (** [Optional] If set, don't actually run the query. A valid query will return an empty response, while an invalid query will return the same error it would if it wasn't a dry run. *)
     kind : string;
     (** The resource type of the request. *)
     maxResults : int;
@@ -867,6 +968,7 @@ sig
   }
   
   val defaultDataset : (t, DatasetReference.t) GapiLens.t
+  val dryRun : (t, bool) GapiLens.t
   val kind : (t, string) GapiLens.t
   val maxResults : (t, int) GapiLens.t
   val query : (t, string) GapiLens.t
@@ -886,7 +988,7 @@ end
 
 module TableList :
 sig
-  module TablesData :
+  module Tables :
   sig
     type t = {
       friendlyName : string;
@@ -920,7 +1022,7 @@ sig
     (** The type of list. *)
     nextPageToken : string;
     (** A token to request the next page of results. *)
-    tables : TablesData.t list;
+    tables : Tables.t list;
     (** Tables in the requested dataset. *)
     totalItems : int;
     (** The total number of tables in the dataset. *)
@@ -930,7 +1032,7 @@ sig
   val etag : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
   val nextPageToken : (t, string) GapiLens.t
-  val tables : (t, TablesData.t list) GapiLens.t
+  val tables : (t, Tables.t list) GapiLens.t
   val totalItems : (t, int) GapiLens.t
   
   val empty : t
@@ -947,7 +1049,7 @@ end
 
 module Dataset :
 sig
-  module AccessData :
+  module Access :
   sig
     type t = {
       domain : string;
@@ -978,13 +1080,13 @@ sig
   end
   
   type t = {
-    access : AccessData.t list;
+    access : Access.t list;
     (** [Optional] Describes users' rights on the dataset. You can assign the same role to multiple users, and assign multiple roles to the same user.
 Default values assigned to a new dataset are as follows: OWNER - Project owners, dataset creator READ - Project readers WRITE - Project writers
 See ACLs and Rights for a description of these rights. If you specify any of these roles when creating a dataset, the assigned roles will overwrite the defaults listed above.
 To revoke rights to a dataset, call datasets.update() and omit the names of anyone whose rights you wish to revoke. However, every dataset must have at least one entity granted OWNER role.
 Each access object can have only one of the following members: userByEmail, groupByEmail, domain, or allAuthenticatedUsers. *)
-    creationTime : string;
+    creationTime : int64;
     (** [Output-only] The time when this dataset was created, in milliseconds since the epoch. *)
     datasetReference : DatasetReference.t;
     (** [Required] Reference identifying dataset. *)
@@ -998,22 +1100,22 @@ Each access object can have only one of the following members: userByEmail, grou
     (** [Output-only] The fully-qualified unique name of this dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. *)
     kind : string;
     (** [Output-only] The resource type. *)
-    lastModifiedTime : string;
+    lastModifiedTime : int64;
     (** [Output-only] The date when this dataset or any of its tables was last modified, in milliseconds since the epoch. *)
     selfLink : string;
     (** [Output-only] An URL that can be used to access this resource again. You can use this URL in Get or Update requests to this resource. *)
     
   }
   
-  val access : (t, AccessData.t list) GapiLens.t
-  val creationTime : (t, string) GapiLens.t
+  val access : (t, Access.t list) GapiLens.t
+  val creationTime : (t, int64) GapiLens.t
   val datasetReference : (t, DatasetReference.t) GapiLens.t
   val description : (t, string) GapiLens.t
   val etag : (t, string) GapiLens.t
   val friendlyName : (t, string) GapiLens.t
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
-  val lastModifiedTime : (t, string) GapiLens.t
+  val lastModifiedTime : (t, int64) GapiLens.t
   val selfLink : (t, string) GapiLens.t
   
   val empty : t

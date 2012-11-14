@@ -1,9 +1,27 @@
 (* Warning! This file is generated. Modify at your own risk. *)
 
-(** Service definition for  (v2).
+(** Service definition for Google OAuth2 API (v2).
   
-  OAuth2 API.
+  Lets you access OAuth2 protocol related APIs..
+  
+  For more information about this service, see the
+  {{:https://developers.google.com/accounts/docs/OAuth2}API Documentation}.
   *)
+
+module Scope :
+sig
+  val plus_me : string
+  (** Know who you are on Google *)
+  
+  val userinfo_email : string
+  (** View your email address *)
+  
+  val userinfo_profile : string
+  (** View basic information about your account *)
+  
+  
+end
+(** Service Auth Scopes *)
 
 module UserinfoResource :
 sig
@@ -15,10 +33,12 @@ sig
       (** 
         
         @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/"]).
+        @param etag Optional ETag.
         @param std_params Optional standard parameters.
         *)
       val get :
         ?base_url:string ->
+        ?etag:string ->
         ?std_params:GapiService.StandardParameters.t ->
         GapiConversation.Session.t ->
         GapiOauth2V2Model.Userinfo.t * GapiConversation.Session.t
@@ -34,10 +54,12 @@ sig
   (** 
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     GapiConversation.Session.t ->
     GapiOauth2V2Model.Userinfo.t * GapiConversation.Session.t
@@ -45,27 +67,6 @@ sig
   
 end
 
-
-(** 
-  
-  @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/"]).
-  @param std_params Optional standard parameters.
-  *)
-val issueTokenGet :
-  ?base_url:string ->
-  ?std_params:GapiService.StandardParameters.t ->
-  ?alg:string ->
-  ?android_device_id:string ->
-  ?app_id:string ->
-  ?audience:string ->
-  ?force:bool ->
-  ?hl:string ->
-  ?origin:string ->
-  client_id:string ->
-  response_type:string ->
-  scope:string ->
-  GapiConversation.Session.t ->
-  GapiOauth2V2Model.Oauth2IssueTokenV2Response.t * GapiConversation.Session.t
 
 (** 
   

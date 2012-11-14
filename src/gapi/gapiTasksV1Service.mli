@@ -9,11 +9,17 @@ open Extlib
   {{:http://code.google.com/apis/tasks/v1/using.html}API Documentation}.
   *)
 
-(** Manage your tasks *)
-val scope : string
-
-(** View your tasks *)
-val scope_readonly : string
+module Scope :
+sig
+  val tasks : string
+  (** Manage your tasks *)
+  
+  val tasks_readonly : string
+  (** View your tasks *)
+  
+  
+end
+(** Service Auth Scopes *)
 
 module TasklistsResource :
 sig
@@ -34,11 +40,13 @@ sig
   (** Returns the authenticated user's specified task list.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/tasks/v1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param tasklist Task list identifier.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     tasklist:string ->
     GapiConversation.Session.t ->
@@ -66,7 +74,7 @@ sig
   val list :
     ?base_url:string ->
     ?std_params:GapiService.StandardParameters.t ->
-    ?maxResults:string ->
+    ?maxResults:int64 ->
     ?pageToken:string ->
     GapiConversation.Session.t ->
     GapiTasksV1Model.TaskLists.t * GapiConversation.Session.t
@@ -136,12 +144,14 @@ sig
   (** Returns the specified task.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/tasks/v1/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param tasklist Task list identifier.
     @param task Task identifier.
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     tasklist:string ->
     task:string ->
@@ -189,7 +199,7 @@ sig
     ?completedMin:string ->
     ?dueMax:string ->
     ?dueMin:string ->
-    ?maxResults:string ->
+    ?maxResults:int64 ->
     ?pageToken:string ->
     ?showCompleted:bool ->
     ?showDeleted:bool ->

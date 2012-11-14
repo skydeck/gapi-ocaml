@@ -5,11 +5,26 @@
   A data platform for customers to create, manage, share and query data..
   
   For more information about this service, see the
-  {{:https://code.google.com/apis/bigquery/docs/v2/}API Documentation}.
+  {{:https://developers.google.com/bigquery/docs/overview}API Documentation}.
   *)
 
-(** View and manage your data in Google BigQuery *)
-val scope : string
+module Scope :
+sig
+  val bigquery : string
+  (** View and manage your data in Google BigQuery *)
+  
+  val devstorage_full_control : string
+  (** Manage your data and permissions in Google Cloud Storage *)
+  
+  val devstorage_read_only : string
+  (** View your data in Google Cloud Storage *)
+  
+  val devstorage_read_write : string
+  (** Manage your data in Google Cloud Storage *)
+  
+  
+end
+(** Service Auth Scopes *)
 
 module DatasetsResource :
 sig
@@ -34,12 +49,14 @@ sig
   (** Returns the dataset specified by datasetID.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/bigquery/v2/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param projectId Project ID of the requested dataset
     @param datasetId Dataset ID of the requested dataset
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     projectId:string ->
     datasetId:string ->
@@ -145,12 +162,14 @@ sig
   (** Retrieves the specified job by ID.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/bigquery/v2/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param projectId Project ID of the requested job
     @param jobId Job ID of the requested job
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     projectId:string ->
     jobId:string ->
@@ -187,6 +206,7 @@ sig
   val insert :
     ?base_url:string ->
     ?std_params:GapiService.StandardParameters.t ->
+    ?media_source:GapiMediaResource.t ->
     projectId:string ->
     GapiBigqueryV2Model.Job.t ->
     GapiConversation.Session.t ->
@@ -261,6 +281,7 @@ sig
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/bigquery/v2/"]).
     @param std_params Optional standard parameters.
     @param maxResults Maximum number of results to return
+    @param pageToken Page token, returned by a previous call, identifying the result set
     @param startIndex Zero-based index of the starting row to read
     @param projectId Project ID of the table to read
     @param datasetId Dataset ID of the table to read
@@ -270,6 +291,7 @@ sig
     ?base_url:string ->
     ?std_params:GapiService.StandardParameters.t ->
     ?maxResults:int ->
+    ?pageToken:string ->
     ?startIndex:string ->
     projectId:string ->
     datasetId:string ->
@@ -303,6 +325,7 @@ sig
   (** Gets the specified table resource by table ID. This method does not return the data in the table, it only returns the table resource, which describes the structure of this table.
     
     @param base_url Service endpoint base URL (defaults to ["https://www.googleapis.com/bigquery/v2/"]).
+    @param etag Optional ETag.
     @param std_params Optional standard parameters.
     @param projectId Project ID of the requested table
     @param datasetId Dataset ID of the requested table
@@ -310,6 +333,7 @@ sig
     *)
   val get :
     ?base_url:string ->
+    ?etag:string ->
     ?std_params:GapiService.StandardParameters.t ->
     projectId:string ->
     datasetId:string ->

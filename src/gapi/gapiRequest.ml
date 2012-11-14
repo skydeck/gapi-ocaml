@@ -8,6 +8,7 @@ exception Unauthorized of GapiConversation.Session.t
 exception PermissionDenied of GapiConversation.Session.t
 exception Forbidden of GapiConversation.Session.t
 exception NotFound of GapiConversation.Session.t
+exception RequestTimeout of GapiConversation.Session.t
 exception Conflict of GapiConversation.Session.t
 exception Gone of GapiConversation.Session.t
 exception PreconditionFailed of GapiConversation.Session.t
@@ -93,6 +94,8 @@ let parse_response
           raise (Forbidden session)
       | 404 (* Not Found *) ->
           raise (NotFound session)
+      | 408 (* Request Timeout *) ->
+          raise (RequestTimeout session)
       | 409 (* Conflict *) ->
           raise (Conflict session)
       | 410 (* Gone *) ->

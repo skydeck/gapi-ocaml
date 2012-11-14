@@ -15,14 +15,15 @@ type json_metadata = {
 
 val metadata_description : json_metadata -> string
 
-type json_data_model = (json_metadata, Json_type.t) GapiCore.AnnotatedTree.t
+type json_data_model =
+  (json_metadata, Yojson.Safe.json) GapiCore.AnnotatedTree.t
 
 val unexpected : string -> json_data_model -> 'a -> 'a
 
 val render_value :
   string ->
-  Json_type.t ->
-  Json_type.t ->
+  Yojson.Safe.json ->
+  Yojson.Safe.json ->
   json_data_model list
 
 val render_string_value :
@@ -35,6 +36,12 @@ val render_int_value :
   ?default:int ->
   string ->
   int ->
+  json_data_model list
+
+val render_int64_value :
+  ?default:int64 ->
+  string ->
+  int64 ->
   json_data_model list
 
 val render_bool_value :
@@ -116,12 +123,12 @@ val parse_dictionary_entry :
   (string * string)
 
 val json_to_data_model :
-  Json_type.json_type ->
+  Yojson.Safe.json ->
   json_data_model
 
 val data_model_to_json :
   json_data_model ->
-  Json_type.json_type
+  Yojson.Safe.json
 
 val parse_json_response :
   (json_data_model -> 'a) ->

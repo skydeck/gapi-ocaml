@@ -3,7 +3,7 @@
 module StringCount =
 struct
   type t = {
-    count : string;
+    count : int64;
     id : string;
     
   }
@@ -18,14 +18,14 @@ struct
   }
   
   let empty = {
-    count = "";
+    count = 0L;
     id = "";
     
   }
   
   let rec render_content x = 
      [
-      GapiJson.render_string_value "count" x.count;
+      GapiJson.render_int64_value "count" x.count;
       GapiJson.render_string_value "id" x.id;
       
     ]
@@ -35,11 +35,11 @@ struct
   let rec parse x = function
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "count"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
-      { x with count = v }
+        `String v) ->
+      { x with count = Int64.of_string v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -59,10 +59,10 @@ struct
   type t = {
     browsers : StringCount.t list;
     countries : StringCount.t list;
-    longUrlClicks : string;
+    longUrlClicks : int64;
     platforms : StringCount.t list;
     referrers : StringCount.t list;
-    shortUrlClicks : string;
+    shortUrlClicks : int64;
     
   }
   
@@ -94,10 +94,10 @@ struct
   let empty = {
     browsers = [];
     countries = [];
-    longUrlClicks = "";
+    longUrlClicks = 0L;
     platforms = [];
     referrers = [];
-    shortUrlClicks = "";
+    shortUrlClicks = 0L;
     
   }
   
@@ -105,10 +105,10 @@ struct
      [
       GapiJson.render_array "browsers" StringCount.render x.browsers;
       GapiJson.render_array "countries" StringCount.render x.countries;
-      GapiJson.render_string_value "longUrlClicks" x.longUrlClicks;
+      GapiJson.render_int64_value "longUrlClicks" x.longUrlClicks;
       GapiJson.render_array "platforms" StringCount.render x.platforms;
       GapiJson.render_array "referrers" StringCount.render x.referrers;
-      GapiJson.render_string_value "shortUrlClicks" x.shortUrlClicks;
+      GapiJson.render_int64_value "shortUrlClicks" x.shortUrlClicks;
       
     ]
   and render x = 
@@ -153,8 +153,8 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "longUrlClicks"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
-      { x with longUrlClicks = v }
+        `String v) ->
+      { x with longUrlClicks = Int64.of_string v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "platforms"; data_type = GapiJson.Array },
         cs) ->
@@ -193,8 +193,8 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "shortUrlClicks"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
-      { x with shortUrlClicks = v }
+        `String v) ->
+      { x with shortUrlClicks = Int64.of_string v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
       cs) ->
@@ -386,23 +386,23 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "created"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with created = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "longUrl"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with longUrl = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "status"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with status = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },
@@ -487,19 +487,19 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "itemsPerPage"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with itemsPerPage = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "nextPageToken"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with nextPageToken = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "totalItems"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with totalItems = v }
     | GapiCore.AnnotatedTree.Node
       ({ GapiJson.name = ""; data_type = GapiJson.Object },

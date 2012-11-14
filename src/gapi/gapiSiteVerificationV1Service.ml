@@ -3,9 +3,14 @@ open Extlib
 open GapiUtils.Infix
 open GapiSiteVerificationV1Model
 
-let scope = "https://www.googleapis.com/auth/siteverification"
-
-let scope_verify_only = "https://www.googleapis.com/auth/siteverification.verify_only"
+module Scope =
+struct
+  let siteverification = "https://www.googleapis.com/auth/siteverification"
+  
+  let siteverification_verify_only = "https://www.googleapis.com/auth/siteverification.verify_only"
+  
+  
+end
 
 module WebResourceResource =
 struct
@@ -78,6 +83,7 @@ struct
     
   let get
         ?(base_url = "https://www.googleapis.com/siteVerification/v1/")
+        ?etag
         ?std_params
         ~id
         session =
@@ -87,7 +93,7 @@ struct
       ?standard_parameters:std_params () in
     let query_parameters = Option.map WebResourceParameters.to_key_value_list
       params in
-    GapiService.get ?query_parameters full_url
+    GapiService.get ?query_parameters ?etag full_url
       (GapiJson.parse_json_response SiteVerificationWebResourceResource.of_data_model)
       session 
     

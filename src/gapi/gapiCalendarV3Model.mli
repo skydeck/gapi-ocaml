@@ -3,7 +3,7 @@
 (** Data definition for Calendar API (v3).
   
   For more information about this data model, see the
-  {{:http://code.google.com/apis/calendar/v3/using.html}API Documentation}.
+  {{:https://developers.google.com/google-apps/calendar/firstapp}API Documentation}.
   *)
 
 module ColorDefinition :
@@ -95,7 +95,7 @@ end
 
 module AclRule :
 sig
-  module ScopeData :
+  module Scope :
   sig
     type t = {
       _type : string;
@@ -134,7 +134,7 @@ sig
 - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. 
 - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. 
 - "owner" - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs. *)
-    scope : ScopeData.t;
+    scope : Scope.t;
     (** The scope of the rule. *)
     
   }
@@ -143,7 +143,7 @@ sig
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
   val role : (t, string) GapiLens.t
-  val scope : (t, ScopeData.t) GapiLens.t
+  val scope : (t, Scope.t) GapiLens.t
   
   val empty : t
   
@@ -244,6 +244,8 @@ sig
     (** The attendee's name, if available. Optional. *)
     email : string;
     (** The attendee's email address, if available. This field must be present when adding an attendee. *)
+    id : string;
+    (** The attendee's Profile ID, if available. *)
     optional : bool;
     (** Whether this is an optional attendee. Optional. The default is False. *)
     organizer : bool;
@@ -265,6 +267,7 @@ sig
   val comment : (t, string) GapiLens.t
   val displayName : (t, string) GapiLens.t
   val email : (t, string) GapiLens.t
+  val id : (t, string) GapiLens.t
   val optional : (t, bool) GapiLens.t
   val organizer : (t, bool) GapiLens.t
   val resource : (t, bool) GapiLens.t
@@ -341,7 +344,7 @@ end
 
 module Event :
 sig
-  module RemindersData :
+  module Reminders :
   sig
     type t = {
       overrides : EventReminder.t list;
@@ -362,18 +365,24 @@ sig
     
   end
   
-  module OrganizerData :
+  module Organizer :
   sig
     type t = {
       displayName : string;
       (** The organizer's name, if available. *)
       email : string;
       (** The organizer's email address, if available. *)
+      id : string;
+      (** The organizer's Profile ID, if available. *)
+      self : bool;
+      (** Whether the organizer corresponds to the calendar on which this copy of the event appears. Read-only. The default is False. *)
       
     }
     
     val displayName : (t, string) GapiLens.t
     val email : (t, string) GapiLens.t
+    val id : (t, string) GapiLens.t
+    val self : (t, bool) GapiLens.t
     
     val empty : t
     
@@ -383,7 +392,7 @@ sig
     
   end
   
-  module GadgetData :
+  module Gadget :
   sig
     type t = {
       display : string;
@@ -424,7 +433,7 @@ sig
     
   end
   
-  module ExtendedPropertiesData :
+  module ExtendedProperties :
   sig
     type t = {
       _private : (string * string) list;
@@ -445,18 +454,24 @@ sig
     
   end
   
-  module CreatorData :
+  module Creator :
   sig
     type t = {
       displayName : string;
       (** The creator's name, if available. *)
       email : string;
       (** The creator's email address, if available. *)
+      id : string;
+      (** The creator's Profile ID, if available. *)
+      self : bool;
+      (** Whether the creator corresponds to the calendar on which this copy of the event appears. Read-only. The default is False. *)
       
     }
     
     val displayName : (t, string) GapiLens.t
     val email : (t, string) GapiLens.t
+    val id : (t, string) GapiLens.t
+    val self : (t, bool) GapiLens.t
     
     val empty : t
     
@@ -472,29 +487,33 @@ sig
     attendees : EventAttendee.t list;
     (** The attendees of the event. *)
     attendeesOmitted : bool;
-    (** Whether attendees have been omitted from the event's representation. When retrieving an event, this is due to a restriction specified by the 'maxAttendee' query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. *)
+    (** Whether attendees may have been omitted from the event's representation. When retrieving an event, this may be due to a restriction specified by the 'maxAttendee' query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. *)
     colorId : string;
     (** The color of the event. This is an ID referring to an entry in the "event" section of the colors definition (see the "colors" endpoint). Optional. *)
     created : GapiDate.t;
     (** Creation time of the event (as a RFC 3339 timestamp). Read-only. *)
-    creator : CreatorData.t;
+    creator : Creator.t;
     (** The creator of the event. Read-only. *)
     description : string;
     (** Description of the event. Optional. *)
     _end : EventDateTime.t;
     (** The (exclusive) end time of the event. For a recurring event, this is the end time of the first instance. *)
+    endTimeUnspecified : bool;
+    (** Whether the end time is actually unspecified. An end time is still provided for compatibility reasons, even if this attribute is set to True. The default is False. *)
     etag : string;
     (** ETag of the resource. *)
-    extendedProperties : ExtendedPropertiesData.t;
+    extendedProperties : ExtendedProperties.t;
     (** Extended properties of the event. *)
-    gadget : GadgetData.t;
+    gadget : Gadget.t;
     (** A gadget that extends this event. *)
     guestsCanInviteOthers : bool;
-    (** Whether attendees other than the organizer can invite others to the event. Optional. The default is False. *)
+    (** Whether attendees other than the organizer can invite others to the event. Optional. The default is True. *)
     guestsCanModify : bool;
     (** Whether attendees other than the organizer can modify the event. Optional. The default is False. *)
     guestsCanSeeOtherGuests : bool;
-    (** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is False. *)
+    (** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is True. *)
+    hangoutLink : string;
+    (** An absolute link to the Google+ hangout associated with this event. Read-only. *)
     htmlLink : string;
     (** An absolute link to this event in the Google Calendar Web UI. Read-only. *)
     iCalUID : string;
@@ -505,7 +524,9 @@ sig
     (** Type of the resource ("calendar#event"). *)
     location : string;
     (** Geographic location of the event as free-form text. Optional. *)
-    organizer : OrganizerData.t;
+    locked : bool;
+    (** Whether this is a locked event copy where no changes can be made to the main event fields "summary", "description", "location", "start", "end" or "recurrence". The default is False. Read-Only. *)
+    organizer : Organizer.t;
     (** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in 'attendees' with the 'organizer' field set to True. To change the organizer, use the "move" operation. Read-only, except when importing an event. *)
     originalStartTime : EventDateTime.t;
     (** For an instance of a recurring event, this is the time at which this event would start according to the recurrence data in the recurring event identified by recurringEventId. Immutable. *)
@@ -515,7 +536,7 @@ sig
     (** List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event. This field is omitted for single events or instances of recurring events. *)
     recurringEventId : string;
     (** For an instance of a recurring event, this is the event ID of the recurring event itself. Immutable. *)
-    reminders : RemindersData.t;
+    reminders : Reminders.t;
     (** Information about the event's reminders for the authenticated user. *)
     sequence : int;
     (** Sequence number as per iCalendar. *)
@@ -548,26 +569,29 @@ sig
   val attendeesOmitted : (t, bool) GapiLens.t
   val colorId : (t, string) GapiLens.t
   val created : (t, GapiDate.t) GapiLens.t
-  val creator : (t, CreatorData.t) GapiLens.t
+  val creator : (t, Creator.t) GapiLens.t
   val description : (t, string) GapiLens.t
   val _end : (t, EventDateTime.t) GapiLens.t
+  val endTimeUnspecified : (t, bool) GapiLens.t
   val etag : (t, string) GapiLens.t
-  val extendedProperties : (t, ExtendedPropertiesData.t) GapiLens.t
-  val gadget : (t, GadgetData.t) GapiLens.t
+  val extendedProperties : (t, ExtendedProperties.t) GapiLens.t
+  val gadget : (t, Gadget.t) GapiLens.t
   val guestsCanInviteOthers : (t, bool) GapiLens.t
   val guestsCanModify : (t, bool) GapiLens.t
   val guestsCanSeeOtherGuests : (t, bool) GapiLens.t
+  val hangoutLink : (t, string) GapiLens.t
   val htmlLink : (t, string) GapiLens.t
   val iCalUID : (t, string) GapiLens.t
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
   val location : (t, string) GapiLens.t
-  val organizer : (t, OrganizerData.t) GapiLens.t
+  val locked : (t, bool) GapiLens.t
+  val organizer : (t, Organizer.t) GapiLens.t
   val originalStartTime : (t, EventDateTime.t) GapiLens.t
   val privateCopy : (t, bool) GapiLens.t
   val recurrence : (t, string list) GapiLens.t
   val recurringEventId : (t, string) GapiLens.t
-  val reminders : (t, RemindersData.t) GapiLens.t
+  val reminders : (t, Reminders.t) GapiLens.t
   val sequence : (t, int) GapiLens.t
   val start : (t, EventDateTime.t) GapiLens.t
   val status : (t, string) GapiLens.t
@@ -812,6 +836,8 @@ sig
 - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. 
 - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. 
 - "owner" - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs. *)
+    backgroundColor : string;
+    (** The main color of the calendar in the format '#0088aa'. This property supersedes the index-based colorId property. Optional. *)
     colorId : string;
     (** The color of the calendar. This is an ID referring to an entry in the "calendar" section of the colors definition (see the "colors" endpoint). Optional. *)
     defaultReminders : EventReminder.t list;
@@ -820,6 +846,8 @@ sig
     (** Description of the calendar. Optional. Read-only. *)
     etag : string;
     (** ETag of the resource. *)
+    foregroundColor : string;
+    (** The foreground color of the calendar in the format '#ffffff'. This property supersedes the index-based colorId property. Optional. *)
     hidden : bool;
     (** Whether the calendar has been hidden from the list. Optional. The default is False. *)
     id : string;
@@ -840,10 +868,12 @@ sig
   }
   
   val accessRole : (t, string) GapiLens.t
+  val backgroundColor : (t, string) GapiLens.t
   val colorId : (t, string) GapiLens.t
   val defaultReminders : (t, EventReminder.t list) GapiLens.t
   val description : (t, string) GapiLens.t
   val etag : (t, string) GapiLens.t
+  val foregroundColor : (t, string) GapiLens.t
   val hidden : (t, bool) GapiLens.t
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t

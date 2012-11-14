@@ -2,7 +2,7 @@
 
 module Result =
 struct
-  module VersionData =
+  module Version =
   struct
     type t = {
       major : int;
@@ -37,37 +37,37 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "major"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with major = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "minor"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with minor = v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiPagespeedonlineV1Model.VersionData.parse" e x
+        GapiJson.unexpected "GapiPagespeedonlineV1Model.Version.parse" e x
     
   end
   
-  module PageStatsData =
+  module PageStats =
   struct
     type t = {
-      cssResponseBytes : string;
-      flashResponseBytes : string;
-      htmlResponseBytes : string;
-      imageResponseBytes : string;
-      javascriptResponseBytes : string;
+      cssResponseBytes : int64;
+      flashResponseBytes : int64;
+      htmlResponseBytes : int64;
+      imageResponseBytes : int64;
+      javascriptResponseBytes : int64;
       numberCssResources : int;
       numberHosts : int;
       numberJsResources : int;
       numberResources : int;
       numberStaticResources : int;
-      otherResponseBytes : string;
-      textResponseBytes : string;
-      totalRequestBytes : string;
+      otherResponseBytes : int64;
+      textResponseBytes : int64;
+      totalRequestBytes : int64;
       
     }
     
@@ -125,37 +125,37 @@ struct
     }
     
     let empty = {
-      cssResponseBytes = "";
-      flashResponseBytes = "";
-      htmlResponseBytes = "";
-      imageResponseBytes = "";
-      javascriptResponseBytes = "";
+      cssResponseBytes = 0L;
+      flashResponseBytes = 0L;
+      htmlResponseBytes = 0L;
+      imageResponseBytes = 0L;
+      javascriptResponseBytes = 0L;
       numberCssResources = 0;
       numberHosts = 0;
       numberJsResources = 0;
       numberResources = 0;
       numberStaticResources = 0;
-      otherResponseBytes = "";
-      textResponseBytes = "";
-      totalRequestBytes = "";
+      otherResponseBytes = 0L;
+      textResponseBytes = 0L;
+      totalRequestBytes = 0L;
       
     }
     
     let rec render_content x = 
        [
-        GapiJson.render_string_value "cssResponseBytes" x.cssResponseBytes;
-        GapiJson.render_string_value "flashResponseBytes" x.flashResponseBytes;
-        GapiJson.render_string_value "htmlResponseBytes" x.htmlResponseBytes;
-        GapiJson.render_string_value "imageResponseBytes" x.imageResponseBytes;
-        GapiJson.render_string_value "javascriptResponseBytes" x.javascriptResponseBytes;
+        GapiJson.render_int64_value "cssResponseBytes" x.cssResponseBytes;
+        GapiJson.render_int64_value "flashResponseBytes" x.flashResponseBytes;
+        GapiJson.render_int64_value "htmlResponseBytes" x.htmlResponseBytes;
+        GapiJson.render_int64_value "imageResponseBytes" x.imageResponseBytes;
+        GapiJson.render_int64_value "javascriptResponseBytes" x.javascriptResponseBytes;
         GapiJson.render_int_value "numberCssResources" x.numberCssResources;
         GapiJson.render_int_value "numberHosts" x.numberHosts;
         GapiJson.render_int_value "numberJsResources" x.numberJsResources;
         GapiJson.render_int_value "numberResources" x.numberResources;
         GapiJson.render_int_value "numberStaticResources" x.numberStaticResources;
-        GapiJson.render_string_value "otherResponseBytes" x.otherResponseBytes;
-        GapiJson.render_string_value "textResponseBytes" x.textResponseBytes;
-        GapiJson.render_string_value "totalRequestBytes" x.totalRequestBytes;
+        GapiJson.render_int64_value "otherResponseBytes" x.otherResponseBytes;
+        GapiJson.render_int64_value "textResponseBytes" x.textResponseBytes;
+        GapiJson.render_int64_value "totalRequestBytes" x.totalRequestBytes;
         
       ]
     and render x = 
@@ -164,76 +164,76 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "cssResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with cssResponseBytes = v }
+          `String v) ->
+        { x with cssResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "flashResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with flashResponseBytes = v }
+          `String v) ->
+        { x with flashResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "htmlResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with htmlResponseBytes = v }
+          `String v) ->
+        { x with htmlResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "imageResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with imageResponseBytes = v }
+          `String v) ->
+        { x with imageResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "javascriptResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with javascriptResponseBytes = v }
+          `String v) ->
+        { x with javascriptResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "numberCssResources"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with numberCssResources = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "numberHosts"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with numberHosts = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "numberJsResources"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with numberJsResources = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "numberResources"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with numberResources = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "numberStaticResources"; data_type = GapiJson.Scalar },
-          Json_type.Int v) ->
+          `Int v) ->
         { x with numberStaticResources = v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "otherResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with otherResponseBytes = v }
+          `String v) ->
+        { x with otherResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "textResponseBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with textResponseBytes = v }
+          `String v) ->
+        { x with textResponseBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "totalRequestBytes"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
-        { x with totalRequestBytes = v }
+          `String v) ->
+        { x with totalRequestBytes = Int64.of_string v }
       | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = ""; data_type = GapiJson.Object },
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiPagespeedonlineV1Model.PageStatsData.parse" e x
+        GapiJson.unexpected "GapiPagespeedonlineV1Model.PageStats.parse" e x
     
   end
   
-  module FormattedResultsData =
+  module FormattedResults =
   struct
-    module RuleResultsData =
+    module RuleResults =
     struct
-      module UrlBlocksData =
+      module UrlBlocks =
       struct
-        module UrlsData =
+        module Urls =
         struct
-          module ResultData =
+          module Result =
           struct
-            module ArgsData =
+            module Args =
             struct
               type t = {
                 _type : string;
@@ -268,23 +268,23 @@ struct
               let rec parse x = function
                 | GapiCore.AnnotatedTree.Leaf
                     ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-                    Json_type.String v) ->
+                    `String v) ->
                   { x with _type = v }
                 | GapiCore.AnnotatedTree.Leaf
                     ({ GapiJson.name = "value"; data_type = GapiJson.Scalar },
-                    Json_type.String v) ->
+                    `String v) ->
                   { x with value = v }
                 | GapiCore.AnnotatedTree.Node
                   ({ GapiJson.name = ""; data_type = GapiJson.Object },
                   cs) ->
                   GapiJson.parse_children parse empty (fun x -> x) cs
                 | e ->
-                  GapiJson.unexpected "GapiPagespeedonlineV1Model.ArgsData.parse" e x
+                  GapiJson.unexpected "GapiPagespeedonlineV1Model.Args.parse" e x
               
             end
             
             type t = {
-              args : ArgsData.t list;
+              args : Args.t list;
               format : string;
               
             }
@@ -306,7 +306,7 @@ struct
             
             let rec render_content x = 
                [
-                GapiJson.render_array "args" ArgsData.render x.args;
+                GapiJson.render_array "args" Args.render x.args;
                 GapiJson.render_string_value "format" x.format;
                 
               ]
@@ -323,31 +323,31 @@ struct
                         ({ GapiJson.name = ""; data_type = GapiJson.Object },
                         cs) ->
                       GapiJson.parse_children
-                        ArgsData.parse
-                        ArgsData.empty
+                        Args.parse
+                        Args.empty
                         (fun v -> v)
                         cs
                     | e ->
-                      GapiJson.unexpected "GapiPagespeedonlineV1Model.ResultData.parse.parse_collection" e x')
-                  ArgsData.empty
+                      GapiJson.unexpected "GapiPagespeedonlineV1Model.Result.parse.parse_collection" e x')
+                  Args.empty
                   (fun v -> { x with args = v })
                   cs
               | GapiCore.AnnotatedTree.Leaf
                   ({ GapiJson.name = "format"; data_type = GapiJson.Scalar },
-                  Json_type.String v) ->
+                  `String v) ->
                 { x with format = v }
               | GapiCore.AnnotatedTree.Node
                 ({ GapiJson.name = ""; data_type = GapiJson.Object },
                 cs) ->
                 GapiJson.parse_children parse empty (fun x -> x) cs
               | e ->
-                GapiJson.unexpected "GapiPagespeedonlineV1Model.ResultData.parse" e x
+                GapiJson.unexpected "GapiPagespeedonlineV1Model.Result.parse" e x
             
           end
           
-          module DetailsData =
+          module Details =
           struct
-            module ArgsData =
+            module Args =
             struct
               type t = {
                 _type : string;
@@ -382,23 +382,23 @@ struct
               let rec parse x = function
                 | GapiCore.AnnotatedTree.Leaf
                     ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-                    Json_type.String v) ->
+                    `String v) ->
                   { x with _type = v }
                 | GapiCore.AnnotatedTree.Leaf
                     ({ GapiJson.name = "value"; data_type = GapiJson.Scalar },
-                    Json_type.String v) ->
+                    `String v) ->
                   { x with value = v }
                 | GapiCore.AnnotatedTree.Node
                   ({ GapiJson.name = ""; data_type = GapiJson.Object },
                   cs) ->
                   GapiJson.parse_children parse empty (fun x -> x) cs
                 | e ->
-                  GapiJson.unexpected "GapiPagespeedonlineV1Model.ArgsData.parse" e x
+                  GapiJson.unexpected "GapiPagespeedonlineV1Model.Args.parse" e x
               
             end
             
             type t = {
-              args : ArgsData.t list;
+              args : Args.t list;
               format : string;
               
             }
@@ -420,7 +420,7 @@ struct
             
             let rec render_content x = 
                [
-                GapiJson.render_array "args" ArgsData.render x.args;
+                GapiJson.render_array "args" Args.render x.args;
                 GapiJson.render_string_value "format" x.format;
                 
               ]
@@ -437,31 +437,31 @@ struct
                         ({ GapiJson.name = ""; data_type = GapiJson.Object },
                         cs) ->
                       GapiJson.parse_children
-                        ArgsData.parse
-                        ArgsData.empty
+                        Args.parse
+                        Args.empty
                         (fun v -> v)
                         cs
                     | e ->
-                      GapiJson.unexpected "GapiPagespeedonlineV1Model.DetailsData.parse.parse_collection" e x')
-                  ArgsData.empty
+                      GapiJson.unexpected "GapiPagespeedonlineV1Model.Details.parse.parse_collection" e x')
+                  Args.empty
                   (fun v -> { x with args = v })
                   cs
               | GapiCore.AnnotatedTree.Leaf
                   ({ GapiJson.name = "format"; data_type = GapiJson.Scalar },
-                  Json_type.String v) ->
+                  `String v) ->
                 { x with format = v }
               | GapiCore.AnnotatedTree.Node
                 ({ GapiJson.name = ""; data_type = GapiJson.Object },
                 cs) ->
                 GapiJson.parse_children parse empty (fun x -> x) cs
               | e ->
-                GapiJson.unexpected "GapiPagespeedonlineV1Model.DetailsData.parse" e x
+                GapiJson.unexpected "GapiPagespeedonlineV1Model.Details.parse" e x
             
           end
           
           type t = {
-            details : DetailsData.t list;
-            result : ResultData.t;
+            details : Details.t list;
+            result : Result.t;
             
           }
           
@@ -476,14 +476,14 @@ struct
           
           let empty = {
             details = [];
-            result = ResultData.empty;
+            result = Result.empty;
             
           }
           
           let rec render_content x = 
              [
-              GapiJson.render_array "details" DetailsData.render x.details;
-              (fun v -> GapiJson.render_object "result" (ResultData.render_content v)) x.result;
+              GapiJson.render_array "details" Details.render x.details;
+              (fun v -> GapiJson.render_object "result" (Result.render_content v)) x.result;
               
             ]
           and render x = 
@@ -499,21 +499,21 @@ struct
                       ({ GapiJson.name = ""; data_type = GapiJson.Object },
                       cs) ->
                     GapiJson.parse_children
-                      DetailsData.parse
-                      DetailsData.empty
+                      Details.parse
+                      Details.empty
                       (fun v -> v)
                       cs
                   | e ->
-                    GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlsData.parse.parse_collection" e x')
-                DetailsData.empty
+                    GapiJson.unexpected "GapiPagespeedonlineV1Model.Urls.parse.parse_collection" e x')
+                Details.empty
                 (fun v -> { x with details = v })
                 cs
             | GapiCore.AnnotatedTree.Node
                 ({ GapiJson.name = "result"; data_type = GapiJson.Object },
                 cs) ->
               GapiJson.parse_children
-                ResultData.parse
-                ResultData.empty
+                Result.parse
+                Result.empty
                 (fun v -> { x with result = v })
                 cs
             | GapiCore.AnnotatedTree.Node
@@ -521,13 +521,13 @@ struct
               cs) ->
               GapiJson.parse_children parse empty (fun x -> x) cs
             | e ->
-              GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlsData.parse" e x
+              GapiJson.unexpected "GapiPagespeedonlineV1Model.Urls.parse" e x
           
         end
         
-        module HeaderData =
+        module Header =
         struct
-          module ArgsData =
+          module Args =
           struct
             type t = {
               _type : string;
@@ -562,23 +562,23 @@ struct
             let rec parse x = function
               | GapiCore.AnnotatedTree.Leaf
                   ({ GapiJson.name = "type"; data_type = GapiJson.Scalar },
-                  Json_type.String v) ->
+                  `String v) ->
                 { x with _type = v }
               | GapiCore.AnnotatedTree.Leaf
                   ({ GapiJson.name = "value"; data_type = GapiJson.Scalar },
-                  Json_type.String v) ->
+                  `String v) ->
                 { x with value = v }
               | GapiCore.AnnotatedTree.Node
                 ({ GapiJson.name = ""; data_type = GapiJson.Object },
                 cs) ->
                 GapiJson.parse_children parse empty (fun x -> x) cs
               | e ->
-                GapiJson.unexpected "GapiPagespeedonlineV1Model.ArgsData.parse" e x
+                GapiJson.unexpected "GapiPagespeedonlineV1Model.Args.parse" e x
             
           end
           
           type t = {
-            args : ArgsData.t list;
+            args : Args.t list;
             format : string;
             
           }
@@ -600,7 +600,7 @@ struct
           
           let rec render_content x = 
              [
-              GapiJson.render_array "args" ArgsData.render x.args;
+              GapiJson.render_array "args" Args.render x.args;
               GapiJson.render_string_value "format" x.format;
               
             ]
@@ -617,31 +617,31 @@ struct
                       ({ GapiJson.name = ""; data_type = GapiJson.Object },
                       cs) ->
                     GapiJson.parse_children
-                      ArgsData.parse
-                      ArgsData.empty
+                      Args.parse
+                      Args.empty
                       (fun v -> v)
                       cs
                   | e ->
-                    GapiJson.unexpected "GapiPagespeedonlineV1Model.HeaderData.parse.parse_collection" e x')
-                ArgsData.empty
+                    GapiJson.unexpected "GapiPagespeedonlineV1Model.Header.parse.parse_collection" e x')
+                Args.empty
                 (fun v -> { x with args = v })
                 cs
             | GapiCore.AnnotatedTree.Leaf
                 ({ GapiJson.name = "format"; data_type = GapiJson.Scalar },
-                Json_type.String v) ->
+                `String v) ->
               { x with format = v }
             | GapiCore.AnnotatedTree.Node
               ({ GapiJson.name = ""; data_type = GapiJson.Object },
               cs) ->
               GapiJson.parse_children parse empty (fun x -> x) cs
             | e ->
-              GapiJson.unexpected "GapiPagespeedonlineV1Model.HeaderData.parse" e x
+              GapiJson.unexpected "GapiPagespeedonlineV1Model.Header.parse" e x
           
         end
         
         type t = {
-          header : HeaderData.t;
-          urls : UrlsData.t list;
+          header : Header.t;
+          urls : Urls.t list;
           
         }
         
@@ -655,15 +655,15 @@ struct
         }
         
         let empty = {
-          header = HeaderData.empty;
+          header = Header.empty;
           urls = [];
           
         }
         
         let rec render_content x = 
            [
-            (fun v -> GapiJson.render_object "header" (HeaderData.render_content v)) x.header;
-            GapiJson.render_array "urls" UrlsData.render x.urls;
+            (fun v -> GapiJson.render_object "header" (Header.render_content v)) x.header;
+            GapiJson.render_array "urls" Urls.render x.urls;
             
           ]
         and render x = 
@@ -674,8 +674,8 @@ struct
               ({ GapiJson.name = "header"; data_type = GapiJson.Object },
               cs) ->
             GapiJson.parse_children
-              HeaderData.parse
-              HeaderData.empty
+              Header.parse
+              Header.empty
               (fun v -> { x with header = v })
               cs
           | GapiCore.AnnotatedTree.Node
@@ -687,13 +687,13 @@ struct
                     ({ GapiJson.name = ""; data_type = GapiJson.Object },
                     cs) ->
                   GapiJson.parse_children
-                    UrlsData.parse
-                    UrlsData.empty
+                    Urls.parse
+                    Urls.empty
                     (fun v -> v)
                     cs
                 | e ->
-                  GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlBlocksData.parse.parse_collection" e x')
-              UrlsData.empty
+                  GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlBlocks.parse.parse_collection" e x')
+              Urls.empty
               (fun v -> { x with urls = v })
               cs
           | GapiCore.AnnotatedTree.Node
@@ -701,7 +701,7 @@ struct
             cs) ->
             GapiJson.parse_children parse empty (fun x -> x) cs
           | e ->
-            GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlBlocksData.parse" e x
+            GapiJson.unexpected "GapiPagespeedonlineV1Model.UrlBlocks.parse" e x
         
       end
       
@@ -709,7 +709,7 @@ struct
         localizedRuleName : string;
         ruleImpact : float;
         ruleScore : int;
-        urlBlocks : UrlBlocksData.t list;
+        urlBlocks : UrlBlocks.t list;
         
       }
       
@@ -743,7 +743,7 @@ struct
           GapiJson.render_string_value "localizedRuleName" x.localizedRuleName;
           GapiJson.render_float_value "ruleImpact" x.ruleImpact;
           GapiJson.render_int_value "ruleScore" x.ruleScore;
-          GapiJson.render_array "urlBlocks" UrlBlocksData.render x.urlBlocks;
+          GapiJson.render_array "urlBlocks" UrlBlocks.render x.urlBlocks;
           
         ]
       and render x = 
@@ -752,19 +752,19 @@ struct
       let rec parse x = function
         | GapiCore.AnnotatedTree.Leaf
             ({ GapiJson.name = "localizedRuleName"; data_type = GapiJson.Scalar },
-            Json_type.String v) ->
+            `String v) ->
           { x with localizedRuleName = v }
         | GapiCore.AnnotatedTree.Leaf
             ({ GapiJson.name = "ruleImpact"; data_type = GapiJson.Scalar },
-            Json_type.Float v) ->
+            `Float v) ->
           { x with ruleImpact = v }
         | GapiCore.AnnotatedTree.Leaf
             ({ GapiJson.name = "ruleImpact"; data_type = GapiJson.Scalar },
-            Json_type.Int v) ->
+            `Int v) ->
           { x with ruleImpact = float_of_int v }
         | GapiCore.AnnotatedTree.Leaf
             ({ GapiJson.name = "ruleScore"; data_type = GapiJson.Scalar },
-            Json_type.Int v) ->
+            `Int v) ->
           { x with ruleScore = v }
         | GapiCore.AnnotatedTree.Node
             ({ GapiJson.name = "urlBlocks"; data_type = GapiJson.Array },
@@ -775,13 +775,13 @@ struct
                   ({ GapiJson.name = ""; data_type = GapiJson.Object },
                   cs) ->
                 GapiJson.parse_children
-                  UrlBlocksData.parse
-                  UrlBlocksData.empty
+                  UrlBlocks.parse
+                  UrlBlocks.empty
                   (fun v -> v)
                   cs
               | e ->
-                GapiJson.unexpected "GapiPagespeedonlineV1Model.RuleResultsData.parse.parse_collection" e x')
-            UrlBlocksData.empty
+                GapiJson.unexpected "GapiPagespeedonlineV1Model.RuleResults.parse.parse_collection" e x')
+            UrlBlocks.empty
             (fun v -> { x with urlBlocks = v })
             cs
         | GapiCore.AnnotatedTree.Node
@@ -789,13 +789,13 @@ struct
           cs) ->
           GapiJson.parse_children parse empty (fun x -> x) cs
         | e ->
-          GapiJson.unexpected "GapiPagespeedonlineV1Model.RuleResultsData.parse" e x
+          GapiJson.unexpected "GapiPagespeedonlineV1Model.RuleResults.parse" e x
       
     end
     
     type t = {
       locale : string;
-      ruleResults : (string * RuleResultsData.t) list;
+      ruleResults : (string * RuleResults.t) list;
       
     }
     
@@ -817,7 +817,7 @@ struct
     let rec render_content x = 
        [
         GapiJson.render_string_value "locale" x.locale;
-        GapiJson.render_collection "ruleResults" GapiJson.Object (fun (id, v) -> (fun v -> GapiJson.render_object id (RuleResultsData.render_content v)) v) x.ruleResults;
+        GapiJson.render_collection "ruleResults" GapiJson.Object (fun (id, v) -> (fun v -> GapiJson.render_object id (RuleResults.render_content v)) v) x.ruleResults;
         
       ]
     and render x = 
@@ -826,7 +826,7 @@ struct
     let rec parse x = function
       | GapiCore.AnnotatedTree.Leaf
           ({ GapiJson.name = "locale"; data_type = GapiJson.Scalar },
-          Json_type.String v) ->
+          `String v) ->
         { x with locale = v }
       | GapiCore.AnnotatedTree.Node
           ({ GapiJson.name = "ruleResults"; data_type = GapiJson.Object },
@@ -837,13 +837,13 @@ struct
                 ({ GapiJson.name = n; data_type = GapiJson.Object },
                 cs) ->
               GapiJson.parse_children
-                RuleResultsData.parse
-                RuleResultsData.empty
+                RuleResults.parse
+                RuleResults.empty
                 (fun v -> (n, v))
                 cs
             | e ->
-              GapiJson.unexpected "GapiPagespeedonlineV1Model.FormattedResultsData.parse.parse_dictionary" e x')
-          ("", RuleResultsData.empty)
+              GapiJson.unexpected "GapiPagespeedonlineV1Model.FormattedResults.parse.parse_dictionary" e x')
+          ("", RuleResults.empty)
           (fun v -> { x with ruleResults = v })
           cs
       | GapiCore.AnnotatedTree.Node
@@ -851,20 +851,20 @@ struct
         cs) ->
         GapiJson.parse_children parse empty (fun x -> x) cs
       | e ->
-        GapiJson.unexpected "GapiPagespeedonlineV1Model.FormattedResultsData.parse" e x
+        GapiJson.unexpected "GapiPagespeedonlineV1Model.FormattedResults.parse" e x
     
   end
   
   type t = {
-    formattedResults : FormattedResultsData.t;
+    formattedResults : FormattedResults.t;
     id : string;
     invalidRules : string list;
     kind : string;
-    pageStats : PageStatsData.t;
+    pageStats : PageStats.t;
     responseCode : int;
     score : int;
     title : string;
-    version : VersionData.t;
+    version : Version.t;
     
   }
   
@@ -906,29 +906,29 @@ struct
   }
   
   let empty = {
-    formattedResults = FormattedResultsData.empty;
+    formattedResults = FormattedResults.empty;
     id = "";
     invalidRules = [];
     kind = "";
-    pageStats = PageStatsData.empty;
+    pageStats = PageStats.empty;
     responseCode = 0;
     score = 0;
     title = "";
-    version = VersionData.empty;
+    version = Version.empty;
     
   }
   
   let rec render_content x = 
      [
-      (fun v -> GapiJson.render_object "formattedResults" (FormattedResultsData.render_content v)) x.formattedResults;
+      (fun v -> GapiJson.render_object "formattedResults" (FormattedResults.render_content v)) x.formattedResults;
       GapiJson.render_string_value "id" x.id;
       GapiJson.render_array "invalidRules" (GapiJson.render_string_value "") x.invalidRules;
       GapiJson.render_string_value "kind" x.kind;
-      (fun v -> GapiJson.render_object "pageStats" (PageStatsData.render_content v)) x.pageStats;
+      (fun v -> GapiJson.render_object "pageStats" (PageStats.render_content v)) x.pageStats;
       GapiJson.render_int_value "responseCode" x.responseCode;
       GapiJson.render_int_value "score" x.score;
       GapiJson.render_string_value "title" x.title;
-      (fun v -> GapiJson.render_object "version" (VersionData.render_content v)) x.version;
+      (fun v -> GapiJson.render_object "version" (Version.render_content v)) x.version;
       
     ]
   and render x = 
@@ -939,13 +939,13 @@ struct
         ({ GapiJson.name = "formattedResults"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        FormattedResultsData.parse
-        FormattedResultsData.empty
+        FormattedResults.parse
+        FormattedResults.empty
         (fun v -> { x with formattedResults = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "id"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with id = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "invalidRules"; data_type = GapiJson.Array },
@@ -954,7 +954,7 @@ struct
         (fun x' -> function
           | GapiCore.AnnotatedTree.Leaf
               ({ GapiJson.name = ""; data_type = GapiJson.Scalar },
-              Json_type.String v) ->
+              `String v) ->
             v
           | e ->
             GapiJson.unexpected "GapiPagespeedonlineV1Model.Result.parse.parse_collection" e x')
@@ -963,34 +963,34 @@ struct
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "kind"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with kind = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "pageStats"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        PageStatsData.parse
-        PageStatsData.empty
+        PageStats.parse
+        PageStats.empty
         (fun v -> { x with pageStats = v })
         cs
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "responseCode"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with responseCode = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "score"; data_type = GapiJson.Scalar },
-        Json_type.Int v) ->
+        `Int v) ->
       { x with score = v }
     | GapiCore.AnnotatedTree.Leaf
         ({ GapiJson.name = "title"; data_type = GapiJson.Scalar },
-        Json_type.String v) ->
+        `String v) ->
       { x with title = v }
     | GapiCore.AnnotatedTree.Node
         ({ GapiJson.name = "version"; data_type = GapiJson.Object },
         cs) ->
       GapiJson.parse_children
-        VersionData.parse
-        VersionData.empty
+        Version.parse
+        Version.empty
         (fun v -> { x with version = v })
         cs
     | GapiCore.AnnotatedTree.Node

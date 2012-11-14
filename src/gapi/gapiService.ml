@@ -10,7 +10,7 @@ let parse_error pipe response_code =
                   pipe
     in
       raise (ServiceError error)
-  with Json_type.Json_error _ ->
+  with Yojson.Json_error _ ->
     GapiConversation.parse_error pipe response_code
 
 let service_request
@@ -69,6 +69,28 @@ let service_request_with_data
         session
     with GapiRequest.NotModified new_session ->
       (data, new_session)
+
+let download_resource
+      ?version
+      ?query_parameters
+      ?ranges
+      url
+      media_destination
+      session =
+  let range_spec =
+    Option.map_default GapiMediaResource.generate_range_spec "" ranges in
+  let media_download = {
+    GapiMediaResource.destination = media_destination;
+    range_spec;
+  } in
+    service_request
+      ?query_parameters
+      ~media_download
+      ?version
+      ~request_type:GapiRequest.Query
+      url
+      GapiRequest.parse_empty_response
+      session
 
 let build_param default_params params get_value to_string name = 
   let value = get_value params in
@@ -163,6 +185,7 @@ let put
   service_request_with_data
     GapiRequest.Update
     data_to_post
+    ?etag
     ?query_parameters
     ?media_source
     data
@@ -202,6 +225,7 @@ let patch
   service_request_with_data
     GapiRequest.Patch
     data_to_post
+    ?etag
     ?query_parameters
     ?media_source
     data
