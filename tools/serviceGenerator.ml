@@ -68,8 +68,14 @@ let get_service_description api version nocache =
       let () = print_endline "Done" in
       let tree = RestDescription.to_data_model document in
       let json = GapiJson.data_model_to_json tree in
-      let () = Yojson.Safe.to_file file_name json in
-        document
+      let ch = open_out file_name in
+        try
+          Yojson.Safe.pretty_to_channel ch json;
+          close_out ch;
+          document
+        with e ->
+          close_out ch;
+          raise e
     end else begin
       Printf.printf "Reusing %s %s service description file %s\n%!"
         api version file_name;
@@ -495,12 +501,52 @@ struct
                      let compare (id1, _) (id2, _) = compare id1 id2
                    end)
 
+  let merge element s =
+    if mem element s then
+      let (_, { Field.field_type; _ }) = element in
+      if ComplexType.is_enum field_type then begin
+        let scalar =
+          match field_type.ComplexType.data_type with
+              ComplexType.Scalar s -> s
+            | _ -> assert false in
+        let enum = scalar.ScalarType.enum in
+        let enum_descriptions = scalar.ScalarType.enumDescriptions in
+        let old_element =
+          filter (fun (id, _) -> id = fst element) s |> choose in
+        let (_, { Field.field_type; _ }) = old_element in
+        let old_scalar =
+          match field_type.ComplexType.data_type with
+              ComplexType.Scalar s -> s
+            | _ -> assert false in
+        let old_enum = old_scalar.ScalarType.enum in
+        let old_enum_descriptions = old_scalar.ScalarType.enumDescriptions in
+        let (new_enum, new_enum_descriptions) =
+          List.fold_left2
+            (fun ((es, ds) as r) e d ->
+               if List.mem e es then r
+               else (e :: es, d :: ds))
+            ([], [])
+            (old_enum @ enum)
+            (old_enum_descriptions @ enum_descriptions) in
+        let new_scalar = scalar
+          |> ScalarType.enum ^= List.rev new_enum
+          |> ScalarType.enumDescriptions ^= List.rev new_enum_descriptions in
+        let new_element = element
+          |> GapiLens.second
+          ^%= Field.field_type
+          ^%= ComplexType.data_type ^= ComplexType.Scalar new_scalar in
+        remove element s |> add new_element
+      end else s
+    else
+      add element s
+
   let add_parameters_list xs s =
     List.fold_left
       (fun s' (id, parameter) ->
          let complex_type = ComplexType.create id parameter in
          let field = Field.create (id, complex_type) in
-           add (id, field) s')
+         let element = (id, field) in
+         merge element s')
       s
       xs
 
@@ -1234,10 +1280,11 @@ let rec generate_service_module_signature
       "@\nmodule %s :@\n@[<v 2>sig@,@[<v 2>type t =@,| Default@,"
       enum_module.EnumModule.ocaml_name;
     List.iter
-      (fun (_, { EnumModule.constructor; _ }) ->
+      (fun (_, { EnumModule.constructor; EnumModule.description; _ }) ->
          Format.fprintf formatter
-           "| %s@,"
-           constructor)
+           "| %s (** %s *)@,"
+           constructor
+           description)
       enum_module.EnumModule.values;
     Format.fprintf formatter "@]@,val to_string : t -> string@,@,val of_string : string -> t@,@]@\nend@\n";
   in

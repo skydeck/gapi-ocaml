@@ -14,7 +14,7 @@ val destination : (download, destination) GapiLens.t
 val range_spec : (download, string) GapiLens.t
 
 val create_out_channel :
-  download -> Netchannels.out_obj_channel
+  download -> Nlchannels.out_obj_channel
 
 val generate_download_headers :
   download -> GapiCore.Header.t list
@@ -76,4 +76,3 @@ val update_upload_state :
 
 val get_post_data :
   upload_state -> GapiCore.PostData.t
-

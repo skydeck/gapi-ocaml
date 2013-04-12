@@ -43,14 +43,14 @@ let generate_authorization_header
                                      ~oauth_token:token
                                      consumer_key
                                      signature_method in
-        let neturl = Neturl.parse_url params.url in
+        let neturl = Nlurl.parse_url params.url in
         let get_fields_to_sign =
           try
-            Netencoding.Url.dest_url_encoded_parameters
-              (Neturl.url_query ~encoded:true neturl)
+            Nlencoding.Url.dest_url_encoded_parameters
+              (Nlurl.url_query ~encoded:true neturl)
           with Not_found -> [] in
-        let base_neturl = Neturl.remove_from_url ~query:true neturl in
-        let base_url = Neturl.string_of_url base_neturl in
+        let base_neturl = Nlurl.remove_from_url ~query:true neturl in
+        let base_url = Nlurl.string_of_url base_neturl in
         let signature = GapiOAuth1.generate_signature
                           params.http_method
                           base_url
@@ -66,4 +66,3 @@ let generate_authorization_header
                   signature)
     | OAuth2 { oauth2_token = token; _ } ->
         Some ("Bearer " ^ token)
-

@@ -20,7 +20,7 @@ let authorization_code_url
      ("access_type", access_type);
      ("approval_prompt", approval_prompt)]
     @ scope_param in
-  let query_string = Netencoding.Url.mk_url_encoded_parameters fields in
+  let query_string = Nlencoding.Url.mk_url_encoded_parameters fields in
     base_url ^ "?" ^ query_string
 
 let parse_token_info pipe =
@@ -83,7 +83,7 @@ let parse_response parse_ok pipe response_code _ _ =
 
 (* TODO: refactor *)
 let encode s =
-  Netencoding.Url.encode ~plus:false s
+  Nlencoding.Url.encode ~plus:false s
 
 let generate_oauth_header oauth_token =
   "Authorization: OAuth " ^ (encode oauth_token)
@@ -159,11 +159,10 @@ let revoke_token
       ?(url = "https://accounts.google.com/o/oauth2/revoke")
       ~refresh_token
       session =
-  let query_string = Netencoding.Url.encode refresh_token in
+  let query_string = Nlencoding.Url.encode refresh_token in
   let url' = Printf.sprintf "%s?token=%s" url query_string in
     GapiConversation.request
       GapiCore.HttpMethod.GET
       session
       url'
       (parse_response (fun _ -> ()))
-

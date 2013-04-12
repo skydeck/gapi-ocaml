@@ -6,40 +6,6 @@
   {{:https://developers.google.com/drive/}API Documentation}.
   *)
 
-module ParentReference :
-sig
-  type t = {
-    id : string;
-    (** The ID of the parent. *)
-    isRoot : bool;
-    (** Whether or not the parent is the root folder. *)
-    kind : string;
-    (** This is always drive#parentReference. *)
-    parentLink : string;
-    (** A link to the parent. *)
-    selfLink : string;
-    (** A link back to this reference. *)
-    
-  }
-  
-  val id : (t, string) GapiLens.t
-  val isRoot : (t, bool) GapiLens.t
-  val kind : (t, string) GapiLens.t
-  val parentLink : (t, string) GapiLens.t
-  val selfLink : (t, string) GapiLens.t
-  
-  val empty : t
-  
-  val render : t -> GapiJson.json_data_model list
-  
-  val parse : t -> GapiJson.json_data_model -> t
-  
-  val to_data_model : t -> GapiJson.json_data_model
-  
-  val of_data_model : GapiJson.json_data_model -> t
-  
-end
-
 module Permission :
 sig
   type t = {
@@ -89,6 +55,92 @@ sig
   val _type : (t, string) GapiLens.t
   val value : (t, string) GapiLens.t
   val withLink : (t, bool) GapiLens.t
+  
+  val empty : t
+  
+  val render : t -> GapiJson.json_data_model list
+  
+  val parse : t -> GapiJson.json_data_model -> t
+  
+  val to_data_model : t -> GapiJson.json_data_model
+  
+  val of_data_model : GapiJson.json_data_model -> t
+  
+end
+
+module ParentReference :
+sig
+  type t = {
+    id : string;
+    (** The ID of the parent. *)
+    isRoot : bool;
+    (** Whether or not the parent is the root folder. *)
+    kind : string;
+    (** This is always drive#parentReference. *)
+    parentLink : string;
+    (** A link to the parent. *)
+    selfLink : string;
+    (** A link back to this reference. *)
+    
+  }
+  
+  val id : (t, string) GapiLens.t
+  val isRoot : (t, bool) GapiLens.t
+  val kind : (t, string) GapiLens.t
+  val parentLink : (t, string) GapiLens.t
+  val selfLink : (t, string) GapiLens.t
+  
+  val empty : t
+  
+  val render : t -> GapiJson.json_data_model list
+  
+  val parse : t -> GapiJson.json_data_model -> t
+  
+  val to_data_model : t -> GapiJson.json_data_model
+  
+  val of_data_model : GapiJson.json_data_model -> t
+  
+end
+
+module User :
+sig
+  module Picture :
+  sig
+    type t = {
+      url : string;
+      (** A URL that points to a profile picture of this user. *)
+      
+    }
+    
+    val url : (t, string) GapiLens.t
+    
+    val empty : t
+    
+    val render : t -> GapiJson.json_data_model list
+    
+    val parse : t -> GapiJson.json_data_model -> t
+    
+  end
+  
+  type t = {
+    displayName : string;
+    (** A plain text displayable name for this user. *)
+    isAuthenticatedUser : bool;
+    (** Whether this user is the same as the authenticated user for whom the request was made. *)
+    kind : string;
+    (** This is always drive#user. *)
+    permissionId : string;
+    (** The user's ID as visible in the permissions collection. *)
+    picture : Picture.t;
+    (** The user's profile picture. *)
+    
+  }
+  
+  val displayName : (t, string) GapiLens.t
+  val isAuthenticatedUser : (t, bool) GapiLens.t
+  val kind : (t, string) GapiLens.t
+  val permissionId : (t, string) GapiLens.t
+  val picture : (t, Picture.t) GapiLens.t
   
   val empty : t
   
@@ -159,7 +211,7 @@ sig
   sig
     type t = {
       text : string;
-      (** The text to be indexed for this file *)
+      (** The text to be indexed for this file. *)
       
     }
     
@@ -206,8 +258,14 @@ sig
       (** The make of the camera used to create the photo. *)
       cameraModel : string;
       (** The model of the camera used to create the photo. *)
+      colorSpace : string;
+      (** The color space of the photo. *)
       date : string;
       (** The date and time the photo was taken (EXIF format timestamp). *)
+      exposureBias : float;
+      (** The exposure bias of the photo (APEX value). *)
+      exposureMode : string;
+      (** The exposure mode used to create the photo. *)
       exposureTime : float;
       (** The length of the exposure, in seconds. *)
       flashUsed : bool;
@@ -218,10 +276,22 @@ sig
       (** The height of the image in pixels. *)
       isoSpeed : int;
       (** The ISO speed used to create the photo. *)
+      lens : string;
+      (** The lens used to create the photo. *)
       location : Location.t;
       (** Geographic location information stored in the image. *)
+      maxApertureValue : float;
+      (** The smallest f-number of the lens at the focal length used to create the photo (APEX value). *)
+      meteringMode : string;
+      (** The metering mode used to create the photo. *)
       rotation : int;
       (** The rotation in clockwise degrees from the image's original orientation. *)
+      sensor : string;
+      (** The type of sensor used to create the photo. *)
+      subjectDistance : int;
+      (** The distance to the subject of the photo, in meters. *)
+      whiteBalance : string;
+      (** The white balance mode used to create the photo. *)
       width : int;
       (** The width of the image in pixels. *)
       
@@ -230,14 +300,23 @@ sig
     val aperture : (t, float) GapiLens.t
     val cameraMake : (t, string) GapiLens.t
     val cameraModel : (t, string) GapiLens.t
+    val colorSpace : (t, string) GapiLens.t
     val date : (t, string) GapiLens.t
+    val exposureBias : (t, float) GapiLens.t
+    val exposureMode : (t, string) GapiLens.t
     val exposureTime : (t, float) GapiLens.t
     val flashUsed : (t, bool) GapiLens.t
     val focalLength : (t, float) GapiLens.t
     val height : (t, int) GapiLens.t
     val isoSpeed : (t, int) GapiLens.t
+    val lens : (t, string) GapiLens.t
     val location : (t, Location.t) GapiLens.t
+    val maxApertureValue : (t, float) GapiLens.t
+    val meteringMode : (t, string) GapiLens.t
     val rotation : (t, int) GapiLens.t
+    val sensor : (t, string) GapiLens.t
+    val subjectDistance : (t, int) GapiLens.t
+    val whiteBalance : (t, string) GapiLens.t
     val width : (t, int) GapiLens.t
     
     val empty : t
@@ -256,7 +335,7 @@ sig
     description : string;
     (** A short description of the file. *)
     downloadUrl : string;
-    (** Short term download URL for the file. This will only be populated on files with content stored in Drive. *)
+    (** Short lived download URL for the file. This is only populated for files with content stored in Drive. *)
     editable : bool;
     (** Whether the file can be edited by the current user. *)
     embedLink : string;
@@ -268,11 +347,13 @@ sig
     exportLinks : (string * string) list;
     (** Links for exporting Google Docs to specific formats. *)
     fileExtension : string;
-    (** The file extension used when downloading this file. This field is set from the title when inserting or uploading new content. This will only be populated on files with content stored in Drive. *)
+    (** The file extension used when downloading this file. This field is read only. To set the extension, include it in the title when creating the file. This is only populated for files with content stored in Drive. *)
     fileSize : int64;
-    (** The size of the file in bytes. This will only be populated on files with content stored in Drive. *)
+    (** The size of the file in bytes. This is only populated for files with content stored in Drive. *)
+    iconLink : string;
+    (** A link to the file's icon. *)
     id : string;
-    (** The id of the file. *)
+    (** The ID of the file. *)
     imageMediaMetadata : ImageMediaMetadata.t;
     (** Metadata about image media. This will only be present for image types, and its contents will depend on what can be parsed from the image content. *)
     indexableText : IndexableText.t;
@@ -281,12 +362,14 @@ sig
     (** The type of file. This is always drive#file. *)
     labels : Labels.t;
     (** A group of labels for the file. *)
+    lastModifyingUser : User.t;
+    (** The last user to modify this file. *)
     lastModifyingUserName : string;
-    (** Name of the last user to modify this file. This will only be populated if a user has edited this file. *)
+    (** Name of the last user to modify this file. *)
     lastViewedByMeDate : GapiDate.t;
     (** Last time this file was viewed by the user (formatted RFC 3339 timestamp). *)
     md5Checksum : string;
-    (** An MD5 checksum for the content of this file. This will only be populated on files with content stored in Drive. *)
+    (** An MD5 checksum for the content of this file. This is populated only for files with content stored in Drive. *)
     mimeType : string;
     (** The MIME type of the file. This is only mutable on update when uploading new content. This field can be left blank, and the mimetype will be determined from the uploaded content's MIME type. *)
     modifiedByMeDate : GapiDate.t;
@@ -297,6 +380,8 @@ sig
     (** The original filename if the file was uploaded manually, or the original title if the file was inserted through the API. Note that renames of the title will not change the original filename. This will only be populated on files with content stored in Drive. *)
     ownerNames : string list;
     (** Name(s) of the owner(s) of this file. *)
+    owners : User.t list;
+    (** The owner(s) of this file. *)
     parents : ParentReference.t list;
     (** Collection of parent folders which contain this file.
 Setting this field will put the file in all of the provided folders. On insert, if no folders are provided, the file will be placed in the default root folder. *)
@@ -304,6 +389,8 @@ Setting this field will put the file in all of the provided folders. On insert, 
     (** The number of quota bytes used by this file. *)
     selfLink : string;
     (** A link back to this file. *)
+    shared : bool;
+    (** Whether the file has been shared. *)
     sharedWithMeDate : GapiDate.t;
     (** Time at which this file was shared with the user (formatted RFC 3339 timestamp). *)
     thumbnail : Thumbnail.t;
@@ -316,6 +403,8 @@ Setting this field will put the file in all of the provided folders. On insert, 
     (** The permissions for the authenticated user on this file. *)
     webContentLink : string;
     (** A link for downloading the content of the file in a browser using cookie based authentication. In cases where the content is shared publicly, the content can be downloaded without any credentials. *)
+    webViewLink : string;
+    (** A link only available on public folders for viewing their static web assets (HTML, CSS, JS, etc) via Google Drive's Website Hosting. *)
     writersCanShare : bool;
     (** Whether writers can share the document with other users. *)
     
@@ -332,11 +421,13 @@ Setting this field will put the file in all of the provided folders. On insert, 
   val exportLinks : (t, (string * string) list) GapiLens.t
   val fileExtension : (t, string) GapiLens.t
   val fileSize : (t, int64) GapiLens.t
+  val iconLink : (t, string) GapiLens.t
   val id : (t, string) GapiLens.t
   val imageMediaMetadata : (t, ImageMediaMetadata.t) GapiLens.t
   val indexableText : (t, IndexableText.t) GapiLens.t
   val kind : (t, string) GapiLens.t
   val labels : (t, Labels.t) GapiLens.t
+  val lastModifyingUser : (t, User.t) GapiLens.t
   val lastModifyingUserName : (t, string) GapiLens.t
   val lastViewedByMeDate : (t, GapiDate.t) GapiLens.t
   val md5Checksum : (t, string) GapiLens.t
@@ -345,15 +436,18 @@ Setting this field will put the file in all of the provided folders. On insert, 
   val modifiedDate : (t, GapiDate.t) GapiLens.t
   val originalFilename : (t, string) GapiLens.t
   val ownerNames : (t, string list) GapiLens.t
+  val owners : (t, User.t list) GapiLens.t
   val parents : (t, ParentReference.t list) GapiLens.t
   val quotaBytesUsed : (t, int64) GapiLens.t
   val selfLink : (t, string) GapiLens.t
+  val shared : (t, bool) GapiLens.t
   val sharedWithMeDate : (t, GapiDate.t) GapiLens.t
   val thumbnail : (t, Thumbnail.t) GapiLens.t
   val thumbnailLink : (t, string) GapiLens.t
   val title : (t, string) GapiLens.t
   val userPermission : (t, Permission.t) GapiLens.t
   val webContentLink : (t, string) GapiLens.t
+  val webViewLink : (t, string) GapiLens.t
   val writersCanShare : (t, bool) GapiLens.t
   
   val empty : t
@@ -423,55 +517,6 @@ sig
   val nextLink : (t, string) GapiLens.t
   val nextPageToken : (t, string) GapiLens.t
   val selfLink : (t, string) GapiLens.t
-  
-  val empty : t
-  
-  val render : t -> GapiJson.json_data_model list
-  
-  val parse : t -> GapiJson.json_data_model -> t
-  
-  val to_data_model : t -> GapiJson.json_data_model
-  
-  val of_data_model : GapiJson.json_data_model -> t
-  
-end
-
-module User :
-sig
-  module Picture :
-  sig
-    type t = {
-      url : string;
-      (** A URL that points to a profile picture of this user. *)
-      
-    }
-    
-    val url : (t, string) GapiLens.t
-    
-    val empty : t
-    
-    val render : t -> GapiJson.json_data_model list
-    
-    val parse : t -> GapiJson.json_data_model -> t
-    
-  end
-  
-  type t = {
-    displayName : string;
-    (** A plain text displayable name for this user. *)
-    isAuthenticatedUser : bool;
-    (** Whether this user is the same as the authenticated user of which the request was made on behalf. *)
-    kind : string;
-    (** This is always drive#user. *)
-    picture : Picture.t;
-    (** The user's profile picture. *)
-    
-  }
-  
-  val displayName : (t, string) GapiLens.t
-  val isAuthenticatedUser : (t, bool) GapiLens.t
-  val kind : (t, string) GapiLens.t
-  val picture : (t, Picture.t) GapiLens.t
   
   val empty : t
   
@@ -641,7 +686,7 @@ sig
     quotaBytesTotal : int64;
     (** The total number of quota bytes. *)
     quotaBytesUsed : int64;
-    (** The number of quota bytes used. *)
+    (** The number of quota bytes used by Google Drive. *)
     quotaBytesUsedAggregate : int64;
     (** The number of quota bytes used by all Google apps (Drive, Picasa, etc.). *)
     quotaBytesUsedInTrash : int64;
@@ -868,6 +913,8 @@ sig
     (** The ID of the revision. *)
     kind : string;
     (** This is always drive#revision. *)
+    lastModifyingUser : User.t;
+    (** The last user to modify this revision. *)
     lastModifyingUserName : string;
     (** Name of the last user to modify this revision. *)
     md5Checksum : string;
@@ -899,6 +946,7 @@ sig
   val fileSize : (t, int64) GapiLens.t
   val id : (t, string) GapiLens.t
   val kind : (t, string) GapiLens.t
+  val lastModifyingUser : (t, User.t) GapiLens.t
   val lastModifyingUserName : (t, string) GapiLens.t
   val md5Checksum : (t, string) GapiLens.t
   val mimeType : (t, string) GapiLens.t

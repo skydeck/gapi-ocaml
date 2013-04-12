@@ -4,7 +4,7 @@
 <src/gapi/gapi*Model.ml>: warn_x
 
 # OASIS_START
-# DO NOT EDIT (digest: c24ca32aba5c5de4fc5bec6dcc7381d8)
+# DO NOT EDIT (digest: 4e2adfe168571110043e2b37e3874743)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -21,7 +21,7 @@
 # Library gapi-ocaml
 "src/gapi/gapi-ocaml.cmxs": use_gapi-ocaml
 <src/gapi/*.ml{,i}>: pkg_batteries
-<src/gapi/*.ml{,i}>: pkg_netstring
+<src/gapi/*.ml{,i}>: pkg_netstring-light
 <src/gapi/*.ml{,i}>: pkg_curl
 <src/gapi/*.ml{,i}>: pkg_str
 <src/gapi/*.ml{,i}>: pkg_cryptokit
@@ -31,7 +31,7 @@
 <src/gdata/*.ml{,i}>: use_gapi-ocaml
 <src/gdata/*.ml{,i}>: pkg_xmlm
 <src/gdata/*.ml{,i}>: pkg_batteries
-<src/gdata/*.ml{,i}>: pkg_netstring
+<src/gdata/*.ml{,i}>: pkg_netstring-light
 <src/gdata/*.ml{,i}>: pkg_curl
 <src/gdata/*.ml{,i}>: pkg_str
 <src/gdata/*.ml{,i}>: pkg_cryptokit
@@ -40,7 +40,7 @@
 "tools/serviceGenerator.byte": use_gapi-ocaml
 "tools/serviceGenerator.byte": pkg_monad
 "tools/serviceGenerator.byte": pkg_batteries
-"tools/serviceGenerator.byte": pkg_netstring
+"tools/serviceGenerator.byte": pkg_netstring-light
 "tools/serviceGenerator.byte": pkg_curl
 "tools/serviceGenerator.byte": pkg_str
 "tools/serviceGenerator.byte": pkg_cryptokit
@@ -48,7 +48,7 @@
 <tools/*.ml{,i}>: use_gapi-ocaml
 <tools/*.ml{,i}>: pkg_monad
 <tools/*.ml{,i}>: pkg_batteries
-<tools/*.ml{,i}>: pkg_netstring
+<tools/*.ml{,i}>: pkg_netstring-light
 <tools/*.ml{,i}>: pkg_curl
 <tools/*.ml{,i}>: pkg_str
 <tools/*.ml{,i}>: pkg_cryptokit
@@ -59,7 +59,7 @@
 "examples/auth/oauth2Flow.byte": pkg_nethttpd
 "examples/auth/oauth2Flow.byte": pkg_xmlm
 "examples/auth/oauth2Flow.byte": pkg_batteries
-"examples/auth/oauth2Flow.byte": pkg_netstring
+"examples/auth/oauth2Flow.byte": pkg_netstring-light
 "examples/auth/oauth2Flow.byte": pkg_curl
 "examples/auth/oauth2Flow.byte": pkg_str
 "examples/auth/oauth2Flow.byte": pkg_cryptokit
@@ -70,7 +70,7 @@
 "examples/auth/oauth1Flow.byte": use_gapi-ocaml
 "examples/auth/oauth1Flow.byte": pkg_nethttpd
 "examples/auth/oauth1Flow.byte": pkg_batteries
-"examples/auth/oauth1Flow.byte": pkg_netstring
+"examples/auth/oauth1Flow.byte": pkg_netstring-light
 "examples/auth/oauth1Flow.byte": pkg_curl
 "examples/auth/oauth1Flow.byte": pkg_str
 "examples/auth/oauth1Flow.byte": pkg_cryptokit
@@ -79,7 +79,7 @@
 "examples/auth/clientLoginFlow.byte": use_gapi-ocaml
 "examples/auth/clientLoginFlow.byte": pkg_nethttpd
 "examples/auth/clientLoginFlow.byte": pkg_batteries
-"examples/auth/clientLoginFlow.byte": pkg_netstring
+"examples/auth/clientLoginFlow.byte": pkg_netstring-light
 "examples/auth/clientLoginFlow.byte": pkg_curl
 "examples/auth/clientLoginFlow.byte": pkg_str
 "examples/auth/clientLoginFlow.byte": pkg_cryptokit
@@ -87,7 +87,7 @@
 <examples/auth/*.ml{,i}>: use_gapi-ocaml
 <examples/auth/*.ml{,i}>: pkg_nethttpd
 <examples/auth/*.ml{,i}>: pkg_batteries
-<examples/auth/*.ml{,i}>: pkg_netstring
+<examples/auth/*.ml{,i}>: pkg_netstring-light
 <examples/auth/*.ml{,i}>: pkg_curl
 <examples/auth/*.ml{,i}>: pkg_str
 <examples/auth/*.ml{,i}>: pkg_cryptokit
@@ -96,7 +96,7 @@
 "src/test/refreshOAuth2Token.byte": use_gapi-ocaml
 "src/test/refreshOAuth2Token.byte": pkg_oUnit
 "src/test/refreshOAuth2Token.byte": pkg_batteries
-"src/test/refreshOAuth2Token.byte": pkg_netstring
+"src/test/refreshOAuth2Token.byte": pkg_netstring-light
 "src/test/refreshOAuth2Token.byte": pkg_curl
 "src/test/refreshOAuth2Token.byte": pkg_str
 "src/test/refreshOAuth2Token.byte": pkg_cryptokit
@@ -108,7 +108,7 @@
 "src/test/testSuite.byte": pkg_monad
 "src/test/testSuite.byte": pkg_xmlm
 "src/test/testSuite.byte": pkg_batteries
-"src/test/testSuite.byte": pkg_netstring
+"src/test/testSuite.byte": pkg_netstring-light
 "src/test/testSuite.byte": pkg_curl
 "src/test/testSuite.byte": pkg_str
 "src/test/testSuite.byte": pkg_cryptokit
@@ -119,7 +119,7 @@
 <src/test/*.ml{,i}>: pkg_monad
 <src/test/*.ml{,i}>: pkg_xmlm
 <src/test/*.ml{,i}>: pkg_batteries
-<src/test/*.ml{,i}>: pkg_netstring
+<src/test/*.ml{,i}>: pkg_netstring-light
 <src/test/*.ml{,i}>: pkg_curl
 <src/test/*.ml{,i}>: pkg_str
 <src/test/*.ml{,i}>: pkg_cryptokit

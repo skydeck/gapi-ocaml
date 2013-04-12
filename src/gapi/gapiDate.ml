@@ -1,12 +1,12 @@
 (* TODO: use Ocamlnet 3 functions *)
-type t = Netdate.t
+type t = Nldate.t
 
-let epoch = Netdate.create 0.0
+let epoch = Nldate.create 0.0
 
-let now () = Netdate.create (Unix.time ())
+let now () = Nldate.create (Unix.time ())
 
 let to_string ?(time = true) date =
-  let timezone = Netdate.format ~fmt:"%z" date in
+  let timezone = Nldate.format ~fmt:"%z" date in
   let tz =
     if timezone = "+0000" then
       "Z"
@@ -15,10 +15,10 @@ let to_string ?(time = true) date =
       let tz_minute = String.sub timezone 3 2 in
         tz_hour ^ ":" ^ tz_minute in
     if time then
-      let result = Netdate.format ~fmt:"%Y-%m-%dT%T" date in
+      let result = Nldate.format ~fmt:"%Y-%m-%dT%T" date in
         result ^ ".000" ^ tz
     else
-      Netdate.format ~fmt:"%Y-%m-%d" date
+      Nldate.format ~fmt:"%Y-%m-%d" date
 
 let rfc3339_regexp = Str.regexp "^\\([0-9][0-9][0-9][0-9]\\)-\\([0-9][0-9]\\)-\\([0-9][0-9]\\)\\(T\\([0-9][0-9]\\):\\([0-9][0-9]\\):\\([0-9][0-9]\\)\\(\\.[0-9]+\\)?\\(Z\\|\\([-+]\\)\\([0-9][0-9]\\):\\([0-9][0-9]\\)\\)\\)?$"
 
@@ -35,7 +35,7 @@ let of_string date_string =
         let day = parse_int 3 in
         let full_date = {
           epoch with
-              Netdate.year;
+              Nldate.year;
               month;
               day = day;
               week_day = -1
@@ -53,7 +53,7 @@ let of_string date_string =
                   ((if sign = "+" then 1 else -1), parse_int 11, parse_int 12)
             in
               { full_date with
-                    Netdate.hour = hour;
+                    Nldate.hour = hour;
                     minute = minute;
                     second = second;
                     zone = tz_sign * (tz_hour * 60 + tz_minute);
@@ -64,4 +64,3 @@ let of_string date_string =
       end
     else
       failwith ("Invalid RFC3339 date: " ^ date_string)
-
