@@ -1,4 +1,5 @@
 open OUnit
+open Extlib
 open GapiUtils.Infix
 open GapiLens.Infix
 open GapiBigqueryV2Model
@@ -455,4 +456,3 @@ let suite = "BigQuery service test" >:::
    "test_insert_table" >:: test_insert_table;
    (* Doesn't work
    "test_update_table" >:: test_update_table*)]
-

@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 open GapiLens.Infix
 
@@ -54,7 +55,7 @@ struct
   }
 
   let to_key_value_list qp =
-    let param get to_string name = 
+    let param get to_string name =
       let value = get qp in
         if value <> get default then
           [(name, to_string value)]
@@ -187,7 +188,7 @@ let create_new_calendar
       entry
       session =
   GdataService.create
-    GdataCalendar.calendar_entry_to_data_model 
+    GdataCalendar.calendar_entry_to_data_model
     ~version
     entry
     url
@@ -199,7 +200,7 @@ let update_calendar
       session =
   let (url, etag) = get_url_etag_calendar entry in
     GdataService.update
-      GdataCalendar.calendar_entry_to_data_model 
+      GdataCalendar.calendar_entry_to_data_model
       ~version
       ?etag
       entry
@@ -262,7 +263,7 @@ let create_new_event
       entry
       session =
   GdataService.create
-    GdataCalendarEvent.calendar_event_entry_to_data_model 
+    GdataCalendarEvent.calendar_event_entry_to_data_model
     ~version
     entry
     url
@@ -274,7 +275,7 @@ let update_event
       session =
   let (url, etag) = get_url_etag_event entry in
     GdataService.update
-      GdataCalendarEvent.calendar_event_entry_to_data_model 
+      GdataCalendarEvent.calendar_event_entry_to_data_model
       ~version
       ?etag
       entry
@@ -322,7 +323,7 @@ let create_acl
       session =
   let url = GdataCalendar.find_url `Acl calendar_entry.GdataCalendar.Entry.links in
     GdataService.create
-      GdataACL.entry_to_data_model 
+      GdataACL.entry_to_data_model
       ~version
       acl_entry
       url
@@ -334,7 +335,7 @@ let update_acl
       session =
   let (url, etag) = get_url_etag_acl entry in
     GdataService.update
-      GdataACL.entry_to_data_model 
+      GdataACL.entry_to_data_model
       ~version
       ?etag
       entry
@@ -366,4 +367,3 @@ let event_batch_request
       url
       parse_event_feed
       session
-

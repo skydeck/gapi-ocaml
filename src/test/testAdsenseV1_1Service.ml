@@ -1,4 +1,5 @@
 open OUnit
+open Extlib
 open GapiUtils.Infix
 open GapiLens.Infix
 open GapiAdsenseV1_1Model
@@ -643,4 +644,3 @@ let suite = "AdSense services test" >:::
    "test_list_adunits_in_customchannel_in_adclient"
      >:: test_list_adunits_in_customchannel_in_adclient;
    "test_generate_report" >:: test_generate_report]
-

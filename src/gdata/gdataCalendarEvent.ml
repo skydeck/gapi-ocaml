@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 
 (* Calendar event data types *)
@@ -682,11 +683,10 @@ let parse_calendar_event_entry =
 let calendar_event_entry_to_data_model =
   GdataAtom.element_to_data_model
     GdataCalendar.get_calendar_prefix
-    Entry.to_xml_data_model 
+    Entry.to_xml_data_model
 
 let calendar_event_feed_to_data_model =
   GdataAtom.element_to_data_model
     GdataCalendar.get_calendar_prefix
-    Feed.to_xml_data_model 
+    Feed.to_xml_data_model
 (* END Calendar event feed: rendering *)
-

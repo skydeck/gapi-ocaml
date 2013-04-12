@@ -1,4 +1,5 @@
 open OUnit
+open Extlib
 open GapiLens.Infix
 
 let new_calendar_entry title =
@@ -188,7 +189,7 @@ let test_create_new_event () =
              "Created entry id not found in event feed"
              (List.exists
                 (fun e -> e.GdataCalendarEvent.Entry.id = id)
-                feed.GdataCalendarEvent.Feed.entries)) 
+                feed.GdataCalendarEvent.Feed.entries))
 
 let test_update_event () =
   let ch = open_in "test_data/new_event_entry.xml" in
@@ -321,7 +322,7 @@ let test_create_acl () =
            "Created entry id not found in acl feed"
            (List.exists
               (fun e -> e |. GdataACL.Entry.id = id)
-              feed.GdataACL.Feed.entries)) 
+              feed.GdataACL.Feed.entries))
 
 let test_update_acl () =
   TestHelper.test_request
@@ -407,4 +408,3 @@ let suite = "Calendar Service test" >:::
    "test_create_acl" >:: test_create_acl;
    "test_update_acl" >:: test_update_acl;
    "test_event_batch_request" >:: test_event_batch_request]
-

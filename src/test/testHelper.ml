@@ -1,3 +1,4 @@
+open Extlib
 open GapiUtils.Infix
 
 let build_client_login_auth test_config =
@@ -107,7 +108,7 @@ let test_request
       build_auth
       interact =
   let test_config = Config.parse ?filename:configfile () in
-  let (auth_conf, auth_session) = build_auth test_config in 
+  let (auth_conf, auth_session) = build_auth test_config in
   let debug_flag = get_debug_flag test_config in
   let config = build_config debug_flag auth_conf in
     do_request
@@ -234,4 +235,3 @@ let assert_exists msg pred xs =
 
 let assert_not_exists msg pred xs =
   OUnit.assert_bool msg (not (List.exists pred xs))
-

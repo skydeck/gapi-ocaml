@@ -1,4 +1,5 @@
 open OUnit
+open Extlib
 open GapiCalendarV3Model
 open GapiLens.Infix
 open GapiUtils.Infix
@@ -236,4 +237,3 @@ let suite = "Calendar (v3) Data Model test" >:::
    "test_parse_free_busy_resource" >:: test_parse_free_busy_resource;
    "test_parse_event_resource" >:: test_parse_event_resource;
    "test_parse_event_list" >:: test_parse_event_list]
-

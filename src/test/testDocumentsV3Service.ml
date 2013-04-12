@@ -1,4 +1,5 @@
 open OUnit
+open Extlib
 open GapiUtils.Infix
 open GapiLens.Infix
 open GdataDocumentsV3Model
@@ -801,7 +802,7 @@ let test_create_acl () =
            "Created entry id not found in acl feed"
            (List.exists
               (fun e -> e |. GdataACL.Entry.id = id)
-              feed.GdataACL.Feed.entries)) 
+              feed.GdataACL.Feed.entries))
 
 let test_update_acl () =
   TestHelper.test_request
@@ -904,4 +905,3 @@ let suite = "Documents List v3 Service test" >:::
    "test_create_acl" >:: test_create_acl;
    "test_update_acl" >:: test_update_acl;
    "test_create_archive" >:: test_create_archive]
-
